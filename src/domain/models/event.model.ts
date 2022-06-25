@@ -1,4 +1,4 @@
-import { EventType } from "./event-type.entity";
+import { EventType } from "./event-type.model";
 
 export class Event {
 

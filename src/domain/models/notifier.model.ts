@@ -1,8 +1,8 @@
-import { Event } from "@domain/events/event.entity";
-import { EventType } from "@domain/events/event-type.entity";
-import { Notification } from "@domain/notifications/notification.entity";
-import { Notified } from "@domain/notifieds/notified.entity";
-import { Messenger } from "@domain/messengers/messenger.entity";
+import { Event } from "@domain/models/event.model";
+import { EventType } from "@domain/models/event-type.model";
+import { Notification } from "@domain/models/notification.model";
+import { Notified } from "@domain/models/notified.model";
+import { Messenger } from "@domain/models/messenger.model";
 
 export interface INotifier {
     notify(event: Event, notified: Notified): void;
