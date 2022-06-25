@@ -1,0 +1,49 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url = "file:/dev.db"
+}
+
+model Customer {
+    id String @id @default(uuid())
+    type CustomerType 
+    document String
+    name String
+    receivers Receiver[]
+}
+
+model Receiver {
+    id String @id @default(uuid())
+    customer Customer? @relation(fields: [customerId], references: [id])
+    customerId String?
+    registeredEvents RegisteredEvents[]
+    number String
+    messenger Messenger
+}
+
+model RegisteredEvents {
+    id String @id @default(uuid())
+    type String
+    receiver Receiver? @relation(fields: [receiverId], references: [id])
+    receiverId String?
+}
+
+
+model Event {
+    id String @id @default(uuid())
+    type String
+}
+
+enum Messenger {
+    whatsapp
+    telegram
+    sms
+}
+
+enum CustomerType {
+    individual
+    company
+}
