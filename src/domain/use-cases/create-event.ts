@@ -1,3 +1,7 @@
-class CreateEvent {
+
+export class CreateEvent {
     
+    exec() {
+        
+    }
 }
