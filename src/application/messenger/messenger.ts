@@ -18,7 +18,7 @@ export class Messenger {
                 await this.twilioClient.messages.create({
                     to: `whatsapp:${number}`,
                     body: message,
-                    from: "whatsapp:+14155238886"
+                    from: process.env.TWILIO_NUMBER
                 })
                 break;
             }

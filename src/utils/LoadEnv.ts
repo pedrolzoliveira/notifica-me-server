@@ -8,7 +8,8 @@ const neededEnvVariables = [
     "DB_PASSWORD",
     "DB_HOST",
     "TWILIO_ACCOUNT_SID",
-    "TWILIO_AUTH_TOKEN"
+    "TWILIO_AUTH_TOKEN",
+    "TWILIO_NUMBER"
 ];
 
 const missingEnv = [];
