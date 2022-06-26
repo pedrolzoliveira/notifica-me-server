@@ -35,6 +35,7 @@ model RegisteredEvents {
 model Event {
     id String @id @default(uuid())
     type String
+    createdAt DateTime @default(now())
 }
 
 enum Messenger {
