@@ -22,6 +22,19 @@ export class ReceiversController extends Controller {
                         const receiver = await this.receiversService.create(req.body);
                         return res.status(201).send({ receiver });
                     }
+                },
+                {
+                    method: "post",
+                    name: "register-event",
+                    middlawares: [
+                        body("eventCode").isString(),
+                        body("receiverId").isString(),
+                        ThrowValidationError
+                    ],
+                    handlerFunction: async (req, res) => {
+                        await this.receiversService.registerEvent(req.body);
+                        return res.status(201).send();
+                    }
                 }
             ]
         })

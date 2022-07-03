@@ -9,6 +9,12 @@ export class NotificationsPrismaRepository implements NotificationsRepository {
     constructor(private prisma: PrismaClient) {}
 
     async create(data: CreateNotification): Promise<Notification> {
-        return this.prisma.notification.create({ data, select: { event: true, receiver: true, createdAt: true } });
+        return this.prisma.notification.create({
+            data: {
+                eventId: data.event.id,
+                receiverId: data.receiver.id
+            },
+            select: { event: true, receiver: true, createdAt: true } 
+        });
     }
 }

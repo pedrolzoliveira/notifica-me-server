@@ -12,6 +12,10 @@ export class NotifyReceivers {
 
     async exec({ event, text } : { event: Event, text: string} ) {
         const receivers = await this.receiversRepository.getByEvent(event.code);
+        console.log(`chegou aqui!`);
+        
+        console.log(receivers);
+        
         await Promise.all([
             receivers.map(async receiver => {
                 await this.messenger.sendMessage({
