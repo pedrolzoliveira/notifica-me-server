@@ -19,11 +19,6 @@ export class EventTypesController extends Controller {
                         .then(eventType => {
                             return res.status(201).send({ eventType });
                         })
-                        .catch(error => {
-                            console.log(error);
-                            
-                            return res.status(500).send({ error });
-                        })
                     }
                 },
                 {
@@ -36,17 +31,11 @@ export class EventTypesController extends Controller {
                             .then(eventType => {
                                 return res.status(200).send({ eventType });
                             })
-                            .catch(error => {
-                                return res.status(500).send({ error });
-                            })
                         :
                             this.eventTypesService.findAll()
                             .then(eventTypes => {
                                 return res.status(200).send({ eventTypes });
                             })
-                            .catch(error => {
-                                return res.status(500).send({ error });
-                            })  
                     }
                 }
             ]
