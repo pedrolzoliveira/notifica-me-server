@@ -1,8 +1,8 @@
-import { Express, Request, Response, Router, RequestHandler } from "express";
-
 import { EventTypesService } from "@application/services/event-types.service";
 
 import { Controller } from "./controller";
+
+import { ServerSideError } from "@infra/http/errors/server-side-error";
 
 export class EventTypesController extends Controller {
 
@@ -29,29 +29,24 @@ export class EventTypesController extends Controller {
                 {
                     method: "get",
                     handlerFunction: (req, res) => {
-                        this.eventTypesService.findAll()
-                        .then(eventTypes => {
-                            return res.status(200).send({ eventTypes });
-                        })
-                        .catch(error => {
-                            return res.status(500).send({ error });
-                        })
-                    }
-                },
-                {
-                    method: "get",
-                    name: ":code",
-                    handlerFunction: (req, res) => {
-                        this.eventTypesService.findByCode(req.params.code)
-                        .then(eventType => {
-                            return res.status(200).send({ eventType }); 
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            console.log();
-                             req.query
-                            return res.status(500).send({ error });
-                        });
+                        const code  = req.query.code as string;
+
+                        code ?
+                            this.eventTypesService.findByCode(code)
+                            .then(eventType => {
+                                return res.status(200).send({ eventType });
+                            })
+                            .catch(error => {
+                                return res.status(500).send({ error });
+                            })
+                        :
+                            this.eventTypesService.findAll()
+                            .then(eventTypes => {
+                                return res.status(200).send({ eventTypes });
+                            })
+                            .catch(error => {
+                                return res.status(500).send({ error });
+                            })  
                     }
                 }
             ]
