@@ -42,7 +42,8 @@ CREATE TABLE `EventType` (
 -- CreateTable
 CREATE TABLE `Event` (
     `id` VARCHAR(191) NOT NULL,
-    `eventCode` VARCHAR(191) NOT NULL,
+    `code` VARCHAR(191) NOT NULL,
+    `text` VARCHAR(191) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
@@ -68,7 +69,7 @@ ALTER TABLE `RegisteredEventsTypes` ADD CONSTRAINT `RegisteredEventsTypes_receiv
 ALTER TABLE `RegisteredEventsTypes` ADD CONSTRAINT `RegisteredEventsTypes_eventCode_fkey` FOREIGN KEY (`eventCode`) REFERENCES `EventType`(`code`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Event` ADD CONSTRAINT `Event_eventCode_fkey` FOREIGN KEY (`eventCode`) REFERENCES `EventType`(`code`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Event` ADD CONSTRAINT `Event_code_fkey` FOREIGN KEY (`code`) REFERENCES `EventType`(`code`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Notification` ADD CONSTRAINT `Notification_receiverId_fkey` FOREIGN KEY (`receiverId`) REFERENCES `Receiver`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -47,8 +47,9 @@ model EventType {
 
 model Event {
     id String @id @default(uuid())
-    type EventType @relation(fields: [eventCode], references: [code])
-    eventCode String 
+    type EventType @relation(fields: [code], references: [code])
+    code String 
+    text String?
     createdAt DateTime @default(now())
     notifications Notification[]
 }
