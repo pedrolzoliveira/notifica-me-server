@@ -17,7 +17,7 @@ export class ReceiversRepositoryFactory implements Factory<ReceiversRepository> 
                     return new ReceiversPrismaRepository(prisma);
                 }
                 case "mock": {
-                    return new ReceiversMockRepository();
+                    // return new ReceiversMockRepository();
                 }
             }
         } catch(error) {

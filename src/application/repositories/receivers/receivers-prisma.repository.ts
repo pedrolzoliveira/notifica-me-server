@@ -2,6 +2,8 @@ import { Receiver } from "@domain/receiver.model";
 import { ReceiversRepository } from "./receivers.repository";
 
 import { PrismaClient } from "@prisma/client";
+import { CreateReceiver } from "@application/dtos/create-receiver.dto";
+import { RegisterEventCustomer } from "@application/dtos/register-event-customer.dto";
 
 export class ReceiversPrismaRepository implements ReceiversRepository {
 
@@ -21,4 +23,14 @@ export class ReceiversPrismaRepository implements ReceiversRepository {
         });
         return receivers;
     }
+
+    create(data: CreateReceiver): Promise<Receiver> {
+        return this.prisma.receiver.create({ data });
+    }
+
+    async registerEvent(data: RegisterEventCustomer): Promise<void> {
+        await this.prisma.registeredEventsTypes.create({ data });
+        return;
+    }
+    
 }
