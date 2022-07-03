@@ -10,7 +10,7 @@ import { PrismaClient } from "@prisma/client";
 type Repo = "prisma" | "mock";
 
 export class EventTypesRepositoryFactory implements Factory<EventTypesRepository> {
-    create(repo: Repo = "prisma"): EventTypesRepository | Promise<EventTypesRepository> {
+    create(repo: Repo = "prisma"): EventTypesRepository {
         try {
             switch(repo) {
                 case "prisma": {

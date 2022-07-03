@@ -45,4 +45,3 @@ export class Controller {
         app.use(`/${this.route}`, router);
     }
 }
-

@@ -10,4 +10,12 @@ export class EventTypesService {
         return this.eventTypesRepository.create(data);
     }
 
+    findAll() {
+        return this.eventTypesRepository.findAll();
+    }
+
+    findByCode(code: string) {
+        return this.eventTypesRepository.findByCode(code);
+    }
+
 }

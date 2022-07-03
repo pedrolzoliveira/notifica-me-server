@@ -1,19 +1,20 @@
-import express from "express";
-const app = express();
+import express, { Express, json } from "express";
 
-app.use(express.json());
-
-
-
+import { Controller } from "@infra/http/express/controllers/controller";
 export class Server {
 
-    app: express.Express;
+    private app: Express;
 
     constructor() {
+        this.app = express();
+        this.app.use(json());
+    }
 
+    registerControllers(controllers: Controller[]) {
+        controllers.forEach(controller => controller.register(this.app));
     }
 
     listen(port: number) {
-
+        this.app.listen(port, () => console.log(`listening on ${port}`));
     }
 }

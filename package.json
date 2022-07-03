@@ -12,7 +12,9 @@
   },
   "scripts": {
     "test": "jest",
-    "prisma:gen": "prisma generate --schema=./src/infra/database/prisma/schema.prisma"
+    "prisma:gen": "prisma generate --schema=./src/infra/database/prisma/schema.prisma",
+    "prisma:migrate": "prisma migrate dev --name $1 --schema=./src/infra/database/prisma/schema.prisma",
+    "dev": "ts-node-dev -r tsconfig-paths/register"
   },
   "dependencies": {
     "@prisma/client": "^3.15.2",
