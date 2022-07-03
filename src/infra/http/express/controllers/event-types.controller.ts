@@ -1,6 +1,6 @@
 import { EventTypesService } from "@application/services/event-types.service";
 import { ThrowValidationError } from "@infra/http/express/middlawares/throw-validation-error";
-import { body, query } from "express-validator";
+import { body } from "express-validator";
 import { Controller } from "./controller";
 
 export class EventTypesController extends Controller {
