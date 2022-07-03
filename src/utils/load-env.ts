@@ -1,12 +1,9 @@
 import "dotenv/config";
 
-import { UndefinedEnvError } from "@errors/UndefinedEnvError";
+import { UndefinedEnvError } from "@errors/undefined-env-error";
 
 const neededEnvVariables = [
-    "DB_NAME",
-    "DB_USER",
-    "DB_PASSWORD",
-    "DB_HOST",
+    "DATABASE_URL",
     "TWILIO_ACCOUNT_SID",
     "TWILIO_AUTH_TOKEN",
     "TWILIO_NUMBER"

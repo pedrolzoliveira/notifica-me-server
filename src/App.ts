@@ -1,4 +1,4 @@
-import "./utils/LoadEnv";
+import "./utils/load-env";
 
 async function main() {
 

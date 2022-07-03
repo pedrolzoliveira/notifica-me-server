@@ -1,10 +1,12 @@
 generator client {
     provider = "prisma-client-js"
+
 }
 
 datasource db {
     provider = "mysql"
-    url = "file:/dev.db"
+    url = env("DATABASE_URL")
+
 }
 
 model Customer {
@@ -19,24 +21,48 @@ model Receiver {
     id String @id @default(uuid())
     customer Customer? @relation(fields: [customerId], references: [id])
     customerId String?
-    registeredEvents RegisteredEvents[]
+    registeredEvents RegisteredEventsTypes[]
     number String
     messenger Messenger
+    notifications Notification[]
 }
 
-model RegisteredEvents {
+model RegisteredEventsTypes {
     id String @id @default(uuid())
-    type String
-    receiver Receiver? @relation(fields: [receiverId], references: [id])
-    receiverId String?
+    type EventType @relation(fields: [eventCode], references: [code])
+    eventCode String
+    receiver Receiver @relation(fields: [receiverId], references: [id])
+    receiverId String
 }
 
+model EventType {
+    code String @id
+    name String @unique
+    description String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    events Event[]
+    registeredEvents RegisteredEventsTypes[]
+}
 
 model Event {
     id String @id @default(uuid())
-    type String
+    type EventType @relation(fields: [eventCode], references: [code])
+    eventCode String 
+    createdAt DateTime @default(now())
+    notifications Notification[]
+}
+
+model Notification {
+    id String @id @default(uuid())
+    event Event @relation(fields: [eventId], references: [id])
+    eventId String
+    receiver Receiver @relation(fields: [receiverId], references: [id])
+    receiverId String
     createdAt DateTime @default(now())
 }
+
+
 
 enum Messenger {
     whatsapp

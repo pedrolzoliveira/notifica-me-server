@@ -15,6 +15,7 @@
             "@infra/*": ["infra/*"],
             "@utils/*": ["utils/*"],
             "@factories/*": ["factories/*"],
+            "@interfaces/*": ["interfaces/*"]
         }
     },
     "include": ["src"],

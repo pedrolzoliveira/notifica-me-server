@@ -1,6 +1,6 @@
 import { Receiver } from "@domain/receiver.model";
 
-export interface ReceiverRepository {
+export interface ReceiversRepository {
     getByEvent(type: string) : Promise<Receiver[]>
 }
 

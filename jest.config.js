@@ -11,6 +11,7 @@ module.exports = {
     "@infra/(.*)": "<rootDir>/infra/$1",
     "@utils/(.*)": "<rootDir>/utils/$1",
     "@factories/(.*)": "<rootDir>/factories/$1",
+    "@interfaces/(.*)": "<rootDir>/interfaces/$1"
   },
   
 

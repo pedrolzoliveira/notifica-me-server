@@ -1,5 +1,5 @@
 export type Event = {
-    type: string;
+    eventCode: string;
     createdAt: Date;
 }
 

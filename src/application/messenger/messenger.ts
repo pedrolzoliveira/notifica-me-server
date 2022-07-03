@@ -1,33 +1,9 @@
-import { Twilio } from "twilio";
 import { MessengerType } from "@domain/receiver.model"; 
 
-
-
-export class Messenger {
-
-    constructor(private twilioClient: Twilio) {}
-
-
-    async sendMessage({
+export interface Messenger {
+    sendMessage({
         by, number, message 
     } : {
         by: MessengerType, number: string, message: string
-    }) {
-        switch (by) {
-            case "whatsapp": {
-                await this.twilioClient.messages.create({
-                    to: `whatsapp:${number}`,
-                    body: message,
-                    from: process.env.TWILIO_NUMBER
-                })
-                break;
-            }
-            default: {
-                console.log(`${by} não implementado`);
-                
-                break;
-            }
-                
-        }        
-    }
+    }) : Promise<any>
 }

@@ -1,9 +1,9 @@
 import { Receiver } from "@domain/receiver.model";
-import { ReceiverRepository } from "./receiver.repository";
+import { ReceiversRepository } from "./receivers.repository";
 
 import { PrismaClient } from "@prisma/client";
 
-export class ReceiverPrismaRepository implements ReceiverRepository {
+export class ReceiversPrismaRepository implements ReceiversRepository {
 
     constructor(private prisma: PrismaClient) {}
 
@@ -12,7 +12,9 @@ export class ReceiverPrismaRepository implements ReceiverRepository {
             where: {
                 registeredEvents: {
                     every: {
-                        type
+                        type: {
+                            code: type
+                        }
                     }
                 }
             }

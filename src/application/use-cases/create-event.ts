@@ -1,22 +1,22 @@
 import { NotifyReceivers } from "@application/use-cases/notify-receivers";
-import { EventPrismaRepository } from "@application/repositories/event-prisma.repository";
+import { EventsPrismaRepository } from "@application/repositories/events/events-prisma.repository";
 
 
 export class CreateEvent {
     
     constructor(
         private notifyReceivers: NotifyReceivers,
-        private eventRepository: EventPrismaRepository
+        private eventsRepository: EventsPrismaRepository
     ) {}
 
     async exec({
         message,
-        type
+        eventCode
     } : {
         message: string;
-        type: string
+        eventCode: string
     }) {
-        const event = await this.eventRepository.create({ type });
+        const event = await this.eventsRepository.create({ eventCode });
         await this.notifyReceivers.exec({ event, message });
     }
 }

@@ -1,9 +1,9 @@
 import { Event } from "@domain/event.model";
-import { EventRepository } from "./event.repository";
+import { EventsRepository } from "./events.repository";
 import { CreateEvent } from "@application/dtos/create-event.dto";
 import { PrismaClient } from "@prisma/client";
 
-export class EventPrismaRepository implements EventRepository {
+export class EventsPrismaRepository implements EventsRepository {
     constructor(private prisma: PrismaClient) {}
 
     async create(data: CreateEvent): Promise<Event> {

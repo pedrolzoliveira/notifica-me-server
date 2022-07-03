@@ -1,5 +1,19 @@
 import express from "express";
-
 const app = express();
 
-app.post("/create-event", async (req, res) => {})
+app.use(express.json());
+
+
+
+export class Server {
+
+    app: express.Express;
+
+    constructor() {
+
+    }
+
+    listen(port: number) {
+
+    }
+}
