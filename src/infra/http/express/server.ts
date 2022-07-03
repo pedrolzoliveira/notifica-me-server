@@ -1,5 +1,5 @@
+import "express-async-errors";
 import express, { Express, json } from "express";
-
 import { Controller } from "@infra/http/express/controllers/controller";
 
 import { ErrorHandler } from "@infra/http/express/middlawares/error-handler";

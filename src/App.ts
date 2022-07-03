@@ -4,7 +4,8 @@ import { ServerFactory } from "./factories/infra/server-factory";
 
 async function main() {
     const server = new ServerFactory().create();
-    server.listen(3041);
+    const PORT = Number(process.env.PORT);
+    server.listen(PORT);
 }
 
 main();
