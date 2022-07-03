@@ -3,6 +3,8 @@ import { Request, Response, NextFunction } from "express";
 import { BaseError } from "@infra/http/errors/base-error";
 
 export function ErrorHandler(error: Error, req: Request, res: Response, next: NextFunction) {
+    console.log(error);
+    
     if (error instanceof BaseError) {
         return res.status(error.statusCode).send({ error: error.message });
     }

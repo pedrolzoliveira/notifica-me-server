@@ -10,14 +10,14 @@ export class NotifyReceivers {
         private notificationsRepository: NotificationsRepository
     ) {}
 
-    async exec({ event, message } : { event: Event, message: string} ) {
-        const receivers = await this.receiversRepository.getByEvent(event.eventCode);
+    async exec({ event, text } : { event: Event, text: string} ) {
+        const receivers = await this.receiversRepository.getByEvent(event.code);
         await Promise.all([
             receivers.map(async receiver => {
                 await this.messenger.sendMessage({
                     by: receiver.messenger,
                     number: receiver.number,
-                    message: message
+                    message: text
                 });
                 await this.notificationsRepository.create({ event, receiver });
             })

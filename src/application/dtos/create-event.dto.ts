@@ -1,4 +1,5 @@
 export class CreateEvent {
-    eventCode: string;
+    code: string;
+    text: string;
     createdAt?: Date;
 }
