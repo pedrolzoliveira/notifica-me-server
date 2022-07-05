@@ -10,6 +10,10 @@ export class CustomersService {
         return this.customersRepository.create(data);
     }
 
+    findAll() {
+        return this.customersRepository.findAll();
+    }
+
     getByDocument(document: string) {
         return this.customersRepository.getByDocument(document);
     }

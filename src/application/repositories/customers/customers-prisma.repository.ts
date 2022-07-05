@@ -16,4 +16,8 @@ export class CustomersPrismaRepository implements CustomersRepository {
     getByDocument(document: string): Promise<Customer> {
         return this.prisma.customer.findFirst({ where: { document } });
     }
+
+    findAll(): Promise<Customer[]> {
+        return this.prisma.customer.findMany();
+    }
 }

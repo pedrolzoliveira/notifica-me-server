@@ -25,6 +25,13 @@ export class CustomersController extends Controller {
                         const customer = await this.customersService.create(req.body);
                         return res.status(201).send({ customer });
                     }
+                },
+                {
+                    method: "get",
+                    handlerFunction: async (req, res) => {
+                        const customers = await this.customersService.findAll();
+                        return res.status(200).send({ customers });
+                    }
                 }
             ]
         })
