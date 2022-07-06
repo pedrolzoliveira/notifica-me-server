@@ -8,6 +8,7 @@ const neededEnvVariables = [
     "TWILIO_AUTH_TOKEN",
     "TWILIO_NUMBER",
     "DATABASE_URL",
+    "CORS_ORIGIN",
     "PORT"
 ];
 
