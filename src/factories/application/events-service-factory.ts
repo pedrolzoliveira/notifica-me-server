@@ -2,7 +2,7 @@ import { Factory } from "@interfaces/factory";
 import { FactoryError } from "@errors/factory-error";
 import { EventsService } from "@application/services/events.service";
 import { EventsRepositoryFactory } from "./events-repository-factory";
-import { CreateEventFactory } from "./create-event-repository-factory";
+import { CreateEventFactory } from "./event-repository-factory";
 
 
 export class EventsServiceFactory implements Factory<EventsService> {

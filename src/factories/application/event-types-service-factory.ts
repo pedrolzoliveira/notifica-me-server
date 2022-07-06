@@ -1,5 +1,4 @@
 import { EventTypesService } from "@application/services/event-types.service";
-import { EventTypesRepository } from "@application/repositories/event-types/event-types.repository";
 
 import { EventTypesRepositoryFactory } from "./event-types-repository-factory";
 
