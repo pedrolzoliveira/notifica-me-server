@@ -10,4 +10,8 @@ export class EventsPrismaRepository implements EventsRepository {
         const event = await this.prisma.event.create({ data });
         return event;
     }
+
+    async findAll(): Promise<Event[]> {
+        return this.prisma.event.findMany();
+    }
 }

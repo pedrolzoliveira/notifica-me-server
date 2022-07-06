@@ -12,4 +12,9 @@ export class EventsService {
         const event = await this.createEvent.exec(data)
         return event;
     }
+
+    async findAll() {
+        const events = await this.eventsRepository.findAll();
+        return events;
+    }
 }

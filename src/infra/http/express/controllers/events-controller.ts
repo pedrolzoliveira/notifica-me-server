@@ -23,6 +23,13 @@ export class EventsController extends Controller {
                         const event = await this.eventsService.create(req.body);
                         return res.status(201).send({ event });
                     }
+                },
+                {
+                    method: "get",
+                    handlerFunction: async (req, res) => {
+                        const events = await this.eventsService.findAll();
+                        return res.status(200).send({ events });
+                    }
                 }
             ]
         })
