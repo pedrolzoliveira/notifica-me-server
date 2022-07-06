@@ -9,6 +9,10 @@ export class ReceiversService {
         private receiversRepository: ReceiversRepository
     ) {}
 
+    findAll() {
+        return this.receiversRepository.findAll();
+    }
+
     create(data: CreateReceiver) {
         return this.receiversRepository.create(data);
     }

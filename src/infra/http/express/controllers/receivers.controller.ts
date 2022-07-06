@@ -12,6 +12,13 @@ export class ReceiversController extends Controller {
             route: "receivers",
             handlers: [
                 {
+                    method: "get",
+                    handlerFunction: async (req, res) => {
+                        const receivers = await this.receiversService.findAll();
+                        return res.status(200).send({ receivers });
+                    }
+                },
+                {
                     method: "post",
                     middlawares: [
                         body("customerId").isString(),

@@ -32,5 +32,9 @@ export class ReceiversPrismaRepository implements ReceiversRepository {
         await this.prisma.registeredEventsTypes.create({ data });
         return;
     }
+
+    async findAll(): Promise<Receiver[]> {
+        return this.prisma.receiver.findMany();
+    }
     
 }
