@@ -34,7 +34,15 @@ export class ReceiversPrismaRepository implements ReceiversRepository {
     }
 
     async findAll(): Promise<Receiver[]> {
-        return this.prisma.receiver.findMany();
+        return this.prisma.receiver.findMany({
+            select: {
+                id: true,
+                customerId: true,
+                number: true,
+                messenger: true,
+                registeredEvents: true
+            }
+        });
     }
     
 }

@@ -12,10 +12,12 @@ export class EventsPrismaRepository implements EventsRepository {
     }
 
     async findAll(code: string): Promise<Event[]> {
-        let args: Prisma.EventFindManyArgs;
-        if (code) args = {
-            where: { code }
-        }
+        let args: Prisma.EventFindManyArgs = {
+            orderBy: {
+                createdAt: 'desc'
+            }
+        };
+        if (code) args.where.code = code
         return this.prisma.event.findMany(args);
     }
 }

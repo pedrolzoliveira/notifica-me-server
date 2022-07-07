@@ -19,7 +19,7 @@ export class EventTypesPrismaRepository implements EventTypesRepository {
     }
 
     async findAll(): Promise<EventType[]> {
-        const eventTypes = await this.prisma.eventType.findMany();
+        const eventTypes = await this.prisma.eventType.findMany({ orderBy: { createdAt: 'desc' } });
         return eventTypes;
     }
 

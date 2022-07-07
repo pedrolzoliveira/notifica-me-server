@@ -5,7 +5,7 @@ export type MessengerType = "whatsapp" | "telegram" | "sms";
 export type Receiver = {
     id?: string;
     customer?: Customer;
-    registeredEvents?: string[];
+    registeredEvents?: any[];
     number: string;
     messenger: MessengerType;
 }

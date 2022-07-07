@@ -19,6 +19,6 @@ export class NotificationsPrismaRepository implements NotificationsRepository {
     }
 
     findAll(): Promise<Notification[]> {
-        return this.prisma.notification.findMany({ select: { event: true, receiver: true, createdAt: true } });
+        return this.prisma.notification.findMany({ select: { event: true, receiver: true, createdAt: true }, orderBy: { createdAt: 'desc' } });
     }
 }
