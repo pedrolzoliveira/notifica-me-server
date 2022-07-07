@@ -13,8 +13,8 @@ export class EventsService {
         return event;
     }
 
-    async findAll() {
-        const events = await this.eventsRepository.findAll();
+    async findAll(code?: string) {
+        const events = await this.eventsRepository.findAll(code);
         return events;
     }
 }

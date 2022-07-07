@@ -4,5 +4,5 @@ import { Event } from "@domain/event.model";
 
 export interface EventsRepository {
     create(data: CreateEvent): Promise<Event>;
-    findAll(): Promise<Event[]>;
+    findAll(code?: string): Promise<Event[]>;
 }

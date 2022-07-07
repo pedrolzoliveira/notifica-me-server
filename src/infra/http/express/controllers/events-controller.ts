@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, query } from "express-validator";
 import { ThrowValidationError } from "@infra/http/express/middlawares/throw-validation-error";
 import { EventsService } from "@application/services/events.service";
 
@@ -26,8 +26,12 @@ export class EventsController extends Controller {
                 },
                 {
                     method: "get",
+                    middlawares: [
+                        query('code').isString().optional(),
+                        ThrowValidationError
+                    ],
                     handlerFunction: async (req, res) => {
-                        const events = await this.eventsService.findAll();
+                        const events = await this.eventsService.findAll(req.query.code as string);
                         return res.status(200).send({ events });
                     }
                 }

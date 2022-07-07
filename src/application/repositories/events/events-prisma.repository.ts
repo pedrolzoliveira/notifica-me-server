@@ -1,7 +1,7 @@
 import { Event } from "@domain/event.model";
 import { EventsRepository } from "./events.repository";
 import { CreateEvent } from "@application/dtos/create-event.dto";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 export class EventsPrismaRepository implements EventsRepository {
     constructor(private prisma: PrismaClient) {}
@@ -11,7 +11,11 @@ export class EventsPrismaRepository implements EventsRepository {
         return event;
     }
 
-    async findAll(): Promise<Event[]> {
-        return this.prisma.event.findMany();
+    async findAll(code: string): Promise<Event[]> {
+        let args: Prisma.EventFindManyArgs;
+        if (code) args = {
+            where: { code }
+        }
+        return this.prisma.event.findMany(args);
     }
 }
