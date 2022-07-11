@@ -22,7 +22,8 @@ export class ReceiversController extends Controller {
                     method: "post",
                     middlawares: [
                         body("customerId").isString(),
-                        body("number").isString(),
+                        body("number").isString().isLength({ min: 8 }),
+                        body("name").isString().isLength({ min: 3 }),
                         body("messenger").isString().isIn(["whatsapp", "telegram", "sms"]),
                         ThrowValidationError
                     ],
@@ -32,6 +33,16 @@ export class ReceiversController extends Controller {
                         }
                         const receiver = await this.receiversService.create(req.body);
                         return res.status(201).send({ receiver });
+                    }
+                },
+                {
+                    method: "delete",
+                    middlawares: [
+                        body("id").isString()
+                    ],
+                    handlerFunction: async (req, res) => {
+                        await this.receiversService.delete(req.body.id);
+                        return res.status(200).send();
                     }
                 },
                 {

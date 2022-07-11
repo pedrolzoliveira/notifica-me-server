@@ -37,6 +37,7 @@ export class ReceiversPrismaRepository implements ReceiversRepository {
         return this.prisma.receiver.findMany({
             select: {
                 id: true,
+                name: true,
                 customerId: true,
                 number: true,
                 messenger: true,
@@ -45,4 +46,8 @@ export class ReceiversPrismaRepository implements ReceiversRepository {
         });
     }
     
+
+    async delete(id: string): Promise<void> {
+        await this.prisma.receiver.delete({ where: { id } });
+    }
 }

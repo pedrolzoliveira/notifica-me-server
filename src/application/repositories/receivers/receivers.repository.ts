@@ -7,6 +7,7 @@ export interface ReceiversRepository {
     findAll(): Promise<Receiver[]>;
     create(data: CreateReceiver): Promise<Receiver>;
     registerEvent(data: RegisterEventCustomer): Promise<void>;
+    delete(id: string): Promise<void>;
 }
 
 

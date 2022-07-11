@@ -20,4 +20,8 @@ export class ReceiversService {
     registerEvent(data: RegisterEventCustomer) {
         return this.receiversRepository.registerEvent(data);
     }
+
+    delete(id: string) {
+        return this.receiversRepository.delete(id);
+    }
 }

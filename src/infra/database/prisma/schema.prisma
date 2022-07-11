@@ -23,6 +23,7 @@ model Receiver {
     customerId String?
     registeredEvents RegisteredEventsTypes[]
     number String
+    name String @default("default_name")
     messenger Messenger
     notifications Notification[]
 }
