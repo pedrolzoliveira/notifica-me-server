@@ -8,4 +8,5 @@ export interface EventTypesRepository {
     findByCode(code: string) : Promise<EventType | null>;
     findAll() : Promise<EventType[]>;
     update(data: UpdateEventType) : Promise<EventType>;
+    delete(code: string) : Promise<void>;
 }

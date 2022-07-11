@@ -14,8 +14,8 @@ export class EventTypesController extends Controller {
                 {
                     method: "post",
                     middlawares: [
-                        body('code').isString(),
-                        body('name').isString(),
+                        body('code').isString().isLength({ min: 3 }),
+                        body('name').isString().isLength({ min: 5 }),
                         body('description').isString().optional(),
                         ThrowValidationError
                     ],
@@ -47,6 +47,17 @@ export class EventTypesController extends Controller {
                     handlerFunction: async (req, res) => {
                         const eventType = await this.eventTypesService.update(req.body);
                         return res.status(200).send({ eventType });
+                    }
+                },
+                {
+                    method: "delete",
+                    middlawares: [
+                        body('code').isString(),
+                        ThrowValidationError
+                    ],
+                    handlerFunction: async (req, res) => {
+                        await this.eventTypesService.delete(req.body.code);
+                        return res.status(200).send();
                     }
                 }
             ]

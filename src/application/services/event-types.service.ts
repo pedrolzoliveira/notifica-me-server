@@ -23,4 +23,8 @@ export class EventTypesService {
         return this.eventTypesRepository.update(data);
     }
 
+    delete(code: string) {
+        return this.eventTypesRepository.delete(code);
+    }
+
 }

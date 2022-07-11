@@ -30,4 +30,10 @@ export class EventTypesPrismaRepository implements EventTypesRepository {
         });
         return eventType;
     }
+
+    async delete(code: string): Promise<void> {
+        await this.prisma.eventType.delete({
+            where: { code }
+        });
+    }
 }
