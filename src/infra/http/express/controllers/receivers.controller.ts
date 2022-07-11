@@ -38,7 +38,8 @@ export class ReceiversController extends Controller {
                 {
                     method: "delete",
                     middlawares: [
-                        body("id").isString()
+                        body("id").isString(),
+                        ThrowValidationError
                     ],
                     handlerFunction: async (req, res) => {
                         await this.receiversService.delete(req.body.id);
