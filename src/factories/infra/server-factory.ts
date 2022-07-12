@@ -7,6 +7,7 @@ import { EventsControllerFactory } from "./events-controller-factory";
 import { CustomersControllerFactory } from "./customers-controller-factory";
 import { ReceiversControllerFactory } from "./receivers-controller-factory";
 import { NotificationsControllerFactory } from "./notifications-controller-factory";
+import { PlansControllerFactory } from "./plans-controller-factory";
 
 export class ServerFactory implements Factory<Server> {
     create(): Server {
@@ -17,7 +18,8 @@ export class ServerFactory implements Factory<Server> {
                 new EventsControllerFactory().create(),
                 new CustomersControllerFactory().create(),
                 new ReceiversControllerFactory().create(),
-                new NotificationsControllerFactory().create()
+                new NotificationsControllerFactory().create(),
+                new PlansControllerFactory().create()
             ]);
             return server;
         } catch(error) {
