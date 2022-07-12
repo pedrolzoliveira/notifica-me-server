@@ -51,7 +51,7 @@ model Event {
     id String @id @default(uuid())
     type EventType @relation(fields: [code], references: [code])
     code String 
-    text String
+    text String @db.Text
     createdAt DateTime @default(now())
     notifications Notification[]
 }
