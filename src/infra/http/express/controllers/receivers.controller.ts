@@ -36,6 +36,19 @@ export class ReceiversController extends Controller {
                     }
                 },
                 {
+                    method: "put",
+                    middlawares: [
+                        body("id").isString(),
+                        body("name").isString().isLength({ min: 3 }),
+                        body("registeredEvents").isArray(),
+                        ThrowValidationError
+                    ],
+                    handlerFunction: async (req, res) => {
+                        const receiver = await this.receiversService.update(req.body);
+                        return res.status(201).send({ receiver });
+                    }
+                },,
+                {
                     method: "delete",
                     middlawares: [
                         body("id").isString(),

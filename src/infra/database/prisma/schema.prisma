@@ -29,11 +29,11 @@ model Receiver {
 }
 
 model RegisteredEventsTypes {
-    id String @id @default(uuid())
     type EventType @relation(fields: [eventCode], references: [code])
     eventCode String
     receiver Receiver @relation(fields: [receiverId], references: [id])
     receiverId String
+    @@id([eventCode, receiverId])
 }
 
 model EventType {
