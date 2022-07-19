@@ -3,7 +3,6 @@ import "dotenv/config";
 import { UndefinedEnvError } from "@errors/undefined-env-error";
 
 const neededEnvVariables = [
-    "DATABASE_URL",
     "TWILIO_ACCOUNT_SID",
     "TWILIO_AUTH_TOKEN",
     "TWILIO_NUMBER",
