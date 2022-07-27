@@ -3,5 +3,5 @@ import { CreateNotification } from "@application/dtos/create-notification.dto";
 
 export interface NotificationsRepository {
     create(data: CreateNotification) : Promise<Notification>;
-    findAll(): Promise<Notification[]>;
+    findAll(skip: number): Promise<Notification[]>;
 }

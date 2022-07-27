@@ -3,4 +3,5 @@ export class UpdatePlan {
     name?: string;
     description?: string;
     price?: number;
+    events?: string[];
 }

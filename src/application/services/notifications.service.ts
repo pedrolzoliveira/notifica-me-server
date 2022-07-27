@@ -6,7 +6,7 @@ export class NotificationService {
         private notificationsRepository: NotificationsRepository
     ) {}
 
-    findAll() {
-        return this.notificationsRepository.findAll();
+    findAll(skip?: number) {
+        return this.notificationsRepository.findAll(skip);
     }
 }

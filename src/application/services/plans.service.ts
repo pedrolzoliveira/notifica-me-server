@@ -21,6 +21,8 @@ export class PlansService {
     }
 
     update(data: UpdatePlan) {
+        console.log(data);
+        
         return this.plansRepository.update(data);
     }
 

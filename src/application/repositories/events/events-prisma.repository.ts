@@ -10,14 +10,16 @@ export class EventsPrismaRepository implements EventsRepository {
         const event = await this.prisma.event.create({ data });
         return event;
     }
-
-    async findAll(code: string): Promise<Event[]> {
+    
+    async findAll({ code, skip }: { code?: string; skip?: number; }): Promise<Event[]> {
         let args: Prisma.EventFindManyArgs = {
             orderBy: {
                 createdAt: 'desc'
-            }
+            },
+            skip: skip ?? 0,
+            take: 20
         };
         if (code) args.where.code = code
-        return this.prisma.event.findMany(args);
+        return this.prisma.event.findMany(args);   
     }
 }

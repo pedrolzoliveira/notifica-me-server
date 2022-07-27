@@ -11,21 +11,79 @@ export class PlansPrismaRepository implements PlansRepository {
     ) {}
 
     create(data: CreatePlan): Promise<Plan> {
-        return this.prisma.plan.create({ data });
+        return this.prisma.plan.create({
+            data: {
+                ...data,
+                events: {
+                    connect: data.events.map(event => {
+                        return { code: event }
+                    })
+                },
+            },
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                price: true,
+                events: true,
+                createdAt: true,
+                updatedAt: true
+            }
+        });
     }
 
     async find(id: string): Promise<Plan> {
-        return this.prisma.plan.findUnique({ where: { id } });
+        return this.prisma.plan.findUnique({
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                price: true,
+                events: true,
+                createdAt: true,
+                updatedAt: true
+            },
+            where: { id } 
+        });
     }
 
     findAll(): Promise<Plan[]> {
-        return this.prisma.plan.findMany();
+        return this.prisma.plan.findMany({
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                price: true,
+                events: true,
+                createdAt: true,
+                updatedAt: true
+            }
+        });
     }
 
     async update(data: UpdatePlan): Promise<Plan> {
         return this.prisma.plan.update({
-            where: { id: data.id },
-            data
+            data: {
+                ...data,
+                events: {
+                    disconnect: {},
+                    connect: data.events?.map(event => {
+                        return { code: event }
+                    })
+                }
+            },
+            where: {
+                id: data.id 
+            },
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                price: true,
+                events: true,
+                createdAt: true,
+                updatedAt: true
+            }
         })
     }
 
