@@ -66,8 +66,7 @@ export class PlansPrismaRepository implements PlansRepository {
             data: {
                 ...data,
                 events: {
-                    disconnect: {},
-                    connect: data.events?.map(event => {
+                    set: data.events?.map(event => {
                         return { code: event }
                     })
                 }
