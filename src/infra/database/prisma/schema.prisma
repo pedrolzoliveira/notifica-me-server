@@ -45,6 +45,7 @@ model EventType {
     events Event[]
     registeredEvents RegisteredEventsTypes[]
     plans Plan[]
+    credentials Credential[]
 }
 
 model Event {
@@ -75,6 +76,15 @@ model Plan {
     updatedAt DateTime @updatedAt
 }
 
+
+model Credential {
+    id String @id @default(uuid())
+    key String
+    name String
+    eventType EventType @relation(fields: [eventCode], references: [code])
+    eventCode String
+    createdAt DateTime @default(now())
+}
 
 enum Messenger {
     whatsapp
