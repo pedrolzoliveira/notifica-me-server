@@ -1,4 +1,5 @@
 export class CreateCredentialDTO {
     name: string;
-    code: string;
+    key: string;
+    eventCode: string;
 }

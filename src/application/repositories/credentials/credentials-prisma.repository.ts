@@ -1,31 +1,19 @@
 import { CreateCredentialDTO } from "@application/dtos/create-credential.dto";
 import { Credential } from "@domain/credential.model";
 import { PrismaClient } from "@prisma/client";
-import { CredentialRepository } from "./credentials.repository";
-import { randomBytes } from "crypto";
+import { CredentialsRepository } from "./credentials.repository";
 
-export class CredentialPrismaRepository implements CredentialRepository {
+export class CredentialPrismaRepository implements CredentialsRepository {
 
     constructor (
         private prisma: PrismaClient
     ) {}
 
     async create(data: CreateCredentialDTO): Promise<Credential> {
-        const key = await (new Promise<string>((resolve, reject) => {
-            randomBytes(48, function(err, buffer) {
-                if (err) reject(err);
-                resolve(buffer.toString('hex'));
-            });
-        }));
-        
-        const credential = await this.prisma.credential.create({ data: {
-            name: data.name,
-            eventCode: data.code,
-            key
-        } });
-
+        const credential = await this.prisma.credential.create({ data });
         return credential;
     }
+    
     async findAll(): Promise<Credential[]> {
         return this.prisma.credential.findMany({});
     }
