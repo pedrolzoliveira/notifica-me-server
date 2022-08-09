@@ -15,10 +15,10 @@ export class CredentialPrismaRepository implements CredentialsRepository {
     }
     
     async findAll(): Promise<Credential[]> {
-        return this.prisma.credential.findMany({});
+        return this.prisma.credential.findMany();
     }
 
     async delete(id: string): Promise<void> {
-        this.prisma.credential.delete({ where: { id } });
+        await this.prisma.credential.delete({ where: { id } });
     }
 }

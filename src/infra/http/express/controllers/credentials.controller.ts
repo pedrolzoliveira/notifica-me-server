@@ -27,6 +27,19 @@ export class CrendetialsController extends Controller {
                 handlerFunction: async (req, res) => {
                     const credentials = await this.credentialsService.findAll();
                     return res.status(200).send({ credentials });
+                },
+               },
+               {
+                method: "delete",
+                middlawares: [
+                    body('id').isString(),
+                    ThrowValidationError
+                ],
+                handlerFunction: async (req, res) => {
+                    console.log('deletando');
+                    
+                    await this.credentialsService.delete(req.body.id);
+                    return res.status(200).send();
                 }
                }
             ]
