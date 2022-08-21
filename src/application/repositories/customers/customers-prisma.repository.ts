@@ -10,14 +10,29 @@ export class CustomersPrismaRepository implements CustomersRepository {
     ) {}
 
     create(data: CreateCustomer): Promise<Customer> {
-        return this.prisma.customer.create({ data });
-    }
-
-    getByDocument(document: string): Promise<Customer> {
-        return this.prisma.customer.findFirst({ where: { document } });
+        return this.prisma.customer.create({
+            select: {
+                name: true,
+                email: true,
+            },
+            data
+        });
     }
 
     findAll(): Promise<Customer[]> {
         return this.prisma.customer.findMany();
+    }
+
+    findByEmail(email: string): Promise<Customer & { passwordHash: string }> {
+        return this.prisma.customer.findUnique({
+            select: {
+                email: true,
+                name: true,
+                passwordHash: true,
+            },
+            where: {
+                email
+            }
+        });
     }
 }

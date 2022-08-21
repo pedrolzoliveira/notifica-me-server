@@ -14,6 +14,7 @@ export class MessengerFactory implements Factory<Messenger> {
         try {
             switch(mode) {
                 case "default": {
+                    return new MessengerMock();
                     const twilioClient = new TwilioClient().client;
                     return new MessengerDefault(twilioClient);
                 }

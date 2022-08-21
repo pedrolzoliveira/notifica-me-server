@@ -13,10 +13,8 @@ export class ReceiversPrismaRepository implements ReceiversRepository {
     async getByEvent(code: string): Promise<Receiver[]> {
         const receivers = await this.prisma.receiver.findMany({
             where: {
-                registeredEvents: {
-                    some: {
-                        eventCode: code
-                    }
+                events: {
+                    some: { code }
                 }
             }
         });
@@ -28,7 +26,14 @@ export class ReceiversPrismaRepository implements ReceiversRepository {
     }
 
     async registerEvent(data: RegisterEventCustomer): Promise<void> {
-        await this.prisma.registeredEventsTypes.create({ data });
+        await this.prisma.receiver.update({
+            where: { id: data.receiverId },
+            data: {
+                events: {
+                    connect: { code: data.eventCode }
+                }
+            }
+        });
         return;
     }
 
@@ -40,25 +45,14 @@ export class ReceiversPrismaRepository implements ReceiversRepository {
                 customerId: true,
                 number: true,
                 messenger: true,
-                registeredEvents: true
+                events: true
             }
         });
     }
     
 
     async delete(id: string): Promise<void> {
-        await this.prisma.$transaction([
-            this.prisma.registeredEventsTypes.deleteMany({
-                where: {
-                    receiverId: id
-                }
-            }),
-            this.prisma.receiver.delete({
-                where: {
-                    id
-                }
-            })
-        ]);
+        await this.prisma.receiver.delete({ where: { id } });
     }
 
     async update(data: UpdateReceiver): Promise<Receiver> {
@@ -69,23 +63,16 @@ export class ReceiversPrismaRepository implements ReceiversRepository {
                 number: true,
                 messenger: true,
                 customerId: true,
-                registeredEvents: true
+                events: true
             },
             where: { id: data.id },
             data: {
                 name: data.name,
-                registeredEvents: {
-                    deleteMany: {},
-                    create: data.registeredEvents.map(event => {
-                        return { eventCode: event }
-                    })
+                events: {
+                    set: data.events.map(event => ({ code: event }))
                 }
             }
         });
         return receiver;
     }
 }
-
-// data.registeredEvents.map(event => {
-//     return { eventCode: event, receiverId: data.id }
-// })

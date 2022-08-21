@@ -1,19 +1,18 @@
 generator client {
     provider = "prisma-client-js"
-
 }
 
 datasource db {
     provider = "mysql"
     url = env("DATABASE_URL")
-
 }
 
 model Customer {
     id String @id @default(uuid())
-    type CustomerType 
-    document String
     name String
+    email String @unique
+    passwordHash String
+    createdAt DateTime @default(now())
     receivers Receiver[]
 }
 
@@ -21,19 +20,11 @@ model Receiver {
     id String @id @default(uuid())
     customer Customer? @relation(fields: [customerId], references: [id])
     customerId String?
-    registeredEvents RegisteredEventsTypes[]
+    events EventType[]
     number String
-    name String @default("default_name")
+    name String
     messenger Messenger
     notifications Notification[]
-}
-
-model RegisteredEventsTypes {
-    type EventType @relation(fields: [eventCode], references: [code])
-    eventCode String
-    receiver Receiver @relation(fields: [receiverId], references: [id])
-    receiverId String
-    @@id([eventCode, receiverId])
 }
 
 model EventType {
@@ -43,7 +34,7 @@ model EventType {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     events Event[]
-    registeredEvents RegisteredEventsTypes[]
+    receivers Receiver[]
     plans Plan[]
     credentials Credential[]
 }
@@ -76,7 +67,6 @@ model Plan {
     updatedAt DateTime @updatedAt
 }
 
-
 model Credential {
     id String @id @default(uuid())
     key String
@@ -86,13 +76,16 @@ model Credential {
     createdAt DateTime @default(now())
 }
 
+model Creator {
+    id String @id @default(uuid())
+    name String
+    email String @unique
+    passwordHash String
+    createdAt DateTime @default(now())
+}
+
 enum Messenger {
     whatsapp
     telegram
     sms
-}
-
-enum CustomerType {
-    individual
-    company
 }

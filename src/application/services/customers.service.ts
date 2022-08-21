@@ -14,8 +14,8 @@ export class CustomersService {
         return this.customersRepository.findAll();
     }
 
-    getByDocument(document: string) {
-        return this.customersRepository.getByDocument(document);
+    findByEmail(email: string) {
+        return this.customersRepository.findByEmail(email);
     }
 
 }
