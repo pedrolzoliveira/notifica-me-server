@@ -1,10 +1,10 @@
 import { Receiver } from "@domain/receiver.model";
 import { ReceiversRepository } from "./receivers.repository";
-
 import { PrismaClient } from "@prisma/client";
 import { CreateReceiver } from "@application/dtos/create-receiver.dto";
 import { RegisterEventCustomer } from "@application/dtos/register-event-customer.dto";
 import { UpdateReceiver } from "@application/dtos/update-receiver.dto";
+import { DeleteReceiverDTO } from "@application/dtos/delete-receiver.dto";
 
 export class ReceiversPrismaRepository implements ReceiversRepository {
 
@@ -37,7 +37,7 @@ export class ReceiversPrismaRepository implements ReceiversRepository {
         return;
     }
 
-    async findAll(): Promise<Receiver[]> {
+    async findAll(customerId: string): Promise<Receiver[]> {
         return this.prisma.receiver.findMany({
             select: {
                 id: true,
@@ -46,13 +46,24 @@ export class ReceiversPrismaRepository implements ReceiversRepository {
                 number: true,
                 messenger: true,
                 events: true
-            }
+            },
+            where: { customerId }
         });
     }
     
 
-    async delete(id: string): Promise<void> {
-        await this.prisma.receiver.delete({ where: { id } });
+    async delete(data: DeleteReceiverDTO): Promise<void> {
+        const receiver = await this.prisma.receiver.findUnique({
+            select: {
+                customerId: true
+            },
+            where: {
+                id: data.id,
+            }
+        });
+        if (receiver.customerId === data.customerId) {
+            await this.prisma.receiver.delete({ where: { id: data.id } })
+        }
     }
 
     async update(data: UpdateReceiver): Promise<Receiver> {

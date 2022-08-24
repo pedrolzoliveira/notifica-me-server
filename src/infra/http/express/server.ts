@@ -7,12 +7,15 @@ export class Server {
 
     private app: Express;
 
-    constructor() {
+    constructor(
+        session: express.RequestHandler
+    ) {
         this.app = express();
         this.app.use(json());
         this.app.use(cors({
             origin: process.env.CORS_ORIGIN
-        }))
+        }));
+        this.app.use(session);
     }
 
     registerControllers(controllers: Controller[]) {

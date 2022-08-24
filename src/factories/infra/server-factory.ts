@@ -10,11 +10,14 @@ import { NotificationsControllerFactory } from "./notifications-controller-facto
 import { PlansControllerFactory } from "./plans-controller-factory";
 import { CrendetialsControllerFactory } from "./credentials-controller-factory";
 import { AuthControllerFactory } from "./auth-controller-factory";
+import { SessionFactory } from "./session-factiory";
 
 export class ServerFactory implements Factory<Server> {
-    create(): Server {
-        try {
-            const server = new Server();
+    async create(): Promise<Server> {
+        try { 
+            const server = new Server(
+                await new SessionFactory().create(),
+            );
             server.registerControllers([
                 new EventTypesControllerFactory().create(),
                 new EventsControllerFactory().create(),

@@ -8,7 +8,8 @@ const neededEnvVariables = [
     "TWILIO_NUMBER",
     "DATABASE_URL",
     "CORS_ORIGIN",
-    "PORT"
+    "PORT",
+    "SESSION_SECRET"
 ];
 
 const missingEnv = [];

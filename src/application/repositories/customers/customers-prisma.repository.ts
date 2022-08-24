@@ -12,6 +12,7 @@ export class CustomersPrismaRepository implements CustomersRepository {
     create(data: CreateCustomer): Promise<Customer> {
         return this.prisma.customer.create({
             select: {
+                id: true,
                 name: true,
                 email: true,
             },
@@ -26,6 +27,7 @@ export class CustomersPrismaRepository implements CustomersRepository {
     findByEmail(email: string): Promise<Customer & { passwordHash: string }> {
         return this.prisma.customer.findUnique({
             select: {
+                id: true,
                 email: true,
                 name: true,
                 passwordHash: true,
