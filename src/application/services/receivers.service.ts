@@ -3,10 +3,12 @@ import { RegisterEventCustomer } from "@application/dtos/register-event-customer
 import { UpdateReceiver } from "@application/dtos/update-receiver.dto";
 import { DeleteReceiverDTO } from "@application/dtos/delete-receiver.dto";
 import { ReceiversRepository } from "@application/repositories/receivers/receivers.repository";
-
+import { HasPermissionReceiverDTO } from "@application/dtos/has-permission-receiver.dto";
+import { PrismaClient } from "@prisma/client";
 export class ReceiversService {
     constructor(
-        private receiversRepository: ReceiversRepository
+        private receiversRepository: ReceiversRepository,
+        private db: PrismaClient
     ) {}
 
     findAll(customerId: string) {
@@ -27,5 +29,10 @@ export class ReceiversService {
 
     delete(data: DeleteReceiverDTO) {
         return this.receiversRepository.delete(data);
+    }
+
+    async hasPermission(data: HasPermissionReceiverDTO) {
+        const receiver = await this.db.receiver.findUnique({ select: { customerId: true }, where: { id: data.id } });
+        return receiver.customerId === data.customerId;
     }
 }

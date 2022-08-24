@@ -1,5 +1,6 @@
 import { ReceiversService } from "@application/services/receivers.service";
 import { BadRequestError } from "@infra/http/errors/bad-request-error";
+import { ForbiddenError } from "@infra/http/errors/forbidden-error";
 import { body } from "express-validator";
 import { AuthMiddlaware } from "../middlawares/auth-middlaware";
 import { ThrowValidationError } from "../middlawares/throw-validation-error";
@@ -17,9 +18,6 @@ export class ReceiversController extends Controller {
             handlers: [
                 {
                     method: "get",
-                    middlawares: [
-                        AuthMiddlaware
-                    ],
                     handlerFunction: async (req, res) => {
                         const receivers = await this.receiversService.findAll(req.session.customer.id);
                         return res.status(200).send({ receivers });
@@ -32,7 +30,6 @@ export class ReceiversController extends Controller {
                         body("name").isString().isLength({ min: 3 }),
                         body("messenger").isString().isIn(["whatsapp", "telegram", "sms"]),
                         ThrowValidationError,
-                        AuthMiddlaware,
                     ],
                     handlerFunction: async (req, res) => {
                         if (["telegram", "sms"].includes(req.body.messenger)) {
@@ -53,8 +50,18 @@ export class ReceiversController extends Controller {
                     middlawares: [
                         body("id").isString(),
                         body("name").isString().isLength({ min: 3 }),
-                        body("registeredEvents").isArray(),
-                        ThrowValidationError
+                        body("events").isArray(),
+                        ThrowValidationError,
+                        async (req, res, next) => {
+                            const hasPermission = await this.receiversService.hasPermission({
+                                id: req.body.id,
+                                customerId: req.session.customer.id,
+                            });
+                            if (!hasPermission) {
+                                throw new ForbiddenError('Você não tem acesso a este recebedor');
+                            }
+                            next();
+                        }
                     ],
                     handlerFunction: async (req, res) => {
                         const receiver = await this.receiversService.update(req.body);
@@ -66,25 +73,20 @@ export class ReceiversController extends Controller {
                     middlawares: [
                         body("id").isString(),
                         ThrowValidationError,
-                        AuthMiddlaware,
+                        async (req, res, next) => {
+                            const hasPermission = await this.receiversService.hasPermission({
+                                id: req.body.id,
+                                customerId: req.session.customer.id,
+                            });
+                            if (!hasPermission) {
+                                throw new ForbiddenError('Você não tem acesso a este recebedor');
+                            }
+                            next();
+                        }
                     ],
                     handlerFunction: async (req, res) => {
                         await this.receiversService.delete(req.body.id);
                         return res.status(200).send();
-                    }
-                },
-                {
-                    method: "post",
-                    name: "register-event",
-                    middlawares: [
-                        body("eventCode").isString(),
-                        body("receiverId").isString(),
-                        ThrowValidationError,
-                        AuthMiddlaware,
-                    ],
-                    handlerFunction: async (req, res) => {
-                        await this.receiversService.registerEvent(req.body);
-                        return res.status(201).send();
                     }
                 }
             ]
