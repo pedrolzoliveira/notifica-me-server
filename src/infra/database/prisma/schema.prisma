@@ -84,6 +84,14 @@ model Creator {
     createdAt DateTime @default(now())
 }
 
+model Admin {
+    id String @id @default(uuid())
+    name String
+    email String @unique
+    passwordHash String
+    createdAt DateTime @default(now())
+}
+
 enum Messenger {
     whatsapp
     telegram
