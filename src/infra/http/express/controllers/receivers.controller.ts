@@ -13,7 +13,7 @@ export class ReceiversController extends Controller {
         super({
             route: "receivers",
             middlewares: [
-                AuthMiddlaware
+                AuthMiddlaware("customer")
             ],
             handlers: [
                 {

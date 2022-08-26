@@ -1,5 +1,6 @@
 import { CustomersService } from "./customers.service";
 import { hash, compare } from "bcrypt";
+import { AdminService } from "./admin.service";
 
 class signUpDTO {
     name: string;
@@ -14,7 +15,8 @@ class signInDTO {
 
 export class AuthService {
     constructor (
-        private customersService: CustomersService
+        private customersService: CustomersService,
+        private adminService: AdminService,
     ) {}
     
     async signUp(data: signUpDTO) {
@@ -38,5 +40,28 @@ export class AuthService {
         }
         delete customer.passwordHash;
         return customer;
+    }
+
+    async signInAdmin(data: signInDTO) {
+        const admin = await this.adminService.findByEmail(data.email);
+        if (!admin) {
+            throw new Error("Customer not found");
+        }
+        const isPasswordCorrect = await compare(data.password, admin.passwordHash);
+        if (!isPasswordCorrect) {
+            throw new Error("Password is incorrect");
+        }
+        delete admin.passwordHash;
+        return admin;
+    }
+
+    async signUpAdmin(data: signUpDTO) {
+        const hashedPassword = await hash(data.password, 10);
+        const admin = await this.adminService.create({
+            name: data.name,
+            passwordHash: hashedPassword,
+            email: data.email,
+        });
+        return admin;
     }
 }

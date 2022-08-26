@@ -1,6 +1,8 @@
 import { EventTypesService } from "@application/services/event-types.service";
+import { ForbiddenError } from "@infra/http/errors/forbidden-error";
 import { ThrowValidationError } from "@infra/http/express/middlawares/throw-validation-error";
 import { body } from "express-validator";
+import { AuthMiddlaware } from "../middlawares/auth-middlaware";
 import { Controller } from "./controller";
 
 export class EventTypesController extends Controller {
@@ -10,6 +12,9 @@ export class EventTypesController extends Controller {
     ) {
         super({
             route: "event-types",
+            middlewares: [
+                AuthMiddlaware("admin"),
+            ],
             handlers: [
                 {
                     method: "post",
@@ -20,7 +25,13 @@ export class EventTypesController extends Controller {
                         ThrowValidationError
                     ],
                     handlerFunction: async (req, res) => {
-                        const eventType = await this.eventTypesService.create(req.body); 
+                        const data = {
+                            adminId: req.session.admin.id,
+                            code: req.body.code,
+                            name: req.body.name,
+                            description: req.body.description,
+                        };
+                        const eventType = await this.eventTypesService.create(data); 
                         return res.status(201).send({ eventType });
                     }
                 },
@@ -42,7 +53,14 @@ export class EventTypesController extends Controller {
                         body('code').isString(),
                         body('name').isString().optional(),
                         body('description').isString().optional(),
-                        ThrowValidationError
+                        ThrowValidationError,
+                        async (req, res, next) => {
+                            const hasPermission = await this.eventTypesService.hasPermission({ code: req.body.code, adminId: req.session.admin.id });
+                            if (!hasPermission) {
+                                throw new ForbiddenError('Voce não tem permissao');
+                            }
+                            next();
+                        }
                     ],
                     handlerFunction: async (req, res) => {
                         const eventType = await this.eventTypesService.update(req.body);
@@ -53,7 +71,14 @@ export class EventTypesController extends Controller {
                     method: "delete",
                     middlawares: [
                         body('code').isString(),
-                        ThrowValidationError
+                        ThrowValidationError,
+                        async (req, res, next) => {
+                            const hasPermission = await this.eventTypesService.hasPermission({ code: req.body.code, adminId: req.session.admin.id });
+                            if (!hasPermission) {
+                                throw new ForbiddenError('Voce não tem permissao');
+                            }
+                            next();
+                        }
                     ],
                     handlerFunction: async (req, res) => {
                         await this.eventTypesService.delete(req.body.code);

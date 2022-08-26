@@ -30,6 +30,8 @@ model Receiver {
 model EventType {
     code String @id
     name String @unique
+    adminId String
+    admin Admin @relation(fields: [adminId], references: [id])
     description String?
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -59,6 +61,8 @@ model Notification {
 
 model Plan {
     id String @id @default(uuid())
+    adminId String
+    admin Admin @relation(fields: [adminId], references: [id])
     name String
     description String
     price Int
@@ -69,18 +73,12 @@ model Plan {
 
 model Credential {
     id String @id @default(uuid())
+    adminId String
+    admin Admin @relation(fields: [adminId], references: [id])
     key String
     name String
     eventType EventType @relation(fields: [eventCode], references: [code])
     eventCode String
-    createdAt DateTime @default(now())
-}
-
-model Creator {
-    id String @id @default(uuid())
-    name String
-    email String @unique
-    passwordHash String
     createdAt DateTime @default(now())
 }
 
@@ -90,6 +88,9 @@ model Admin {
     email String @unique
     passwordHash String
     createdAt DateTime @default(now())
+    eventTypes EventType[]
+    plans Plan[]
+    credentials Credential[]
 }
 
 enum Messenger {

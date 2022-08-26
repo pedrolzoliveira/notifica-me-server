@@ -5,7 +5,12 @@ declare module "express-session" {
         customer: {
             id: string;
             email: string;
-            name: string
+            name: string;
+        },
+        admin: {
+            id: string;
+            email: string;
+            name: string;
         }
     }
 }

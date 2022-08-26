@@ -14,8 +14,8 @@ export class CredentialPrismaRepository implements CredentialsRepository {
         return credential;
     }
     
-    async findAll(): Promise<Credential[]> {
-        return this.prisma.credential.findMany();
+    async findAll(adminId: string): Promise<Credential[]> {
+        return this.prisma.credential.findMany({ where: { adminId } });
     }
 
     async delete(id: string): Promise<void> {

@@ -51,7 +51,47 @@ export class AuthController extends Controller {
                         throw error;
                     }
                 }
-            }
+            },
+            {
+                method: "post",
+                name: "admin/signup",
+                middlawares: [
+                    body("email").isString().isEmail(),
+                    body("password").isString().isStrongPassword(),
+                    body("name").isString(),
+                    ThrowValidationError
+
+                ],
+                handlerFunction: async (req, res) => {
+                    const admin = await this.authService.signUpAdmin(req.body);
+                    req.session.admin = admin;
+                    return res.status(201).send({ admin });
+                }
+            },
+            {
+                method: "post",
+                name: "admin/signin",
+                middlawares: [
+                    body("email").isString(),
+                    body("password").isString(),
+                    ThrowValidationError
+                ],
+                handlerFunction: async (req, res) => {
+                    try {
+                        const admin = await this.authService.signInAdmin(req.body);
+                        req.session.admin = admin;
+                        return res.status(200).send({ admin });
+                    } catch(error) {
+                        if (error.message === "Admin not found") {
+                            throw new NotFoundError(error.message);
+                        }
+                        else if (error.message === "Password is incorrect") {
+                            throw new ForbiddenError(error.message);
+                        }
+                        throw error;
+                    }
+                }
+            },
         ]
     })
    }
