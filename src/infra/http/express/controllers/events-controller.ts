@@ -2,9 +2,13 @@ import { body, query } from "express-validator";
 import { ThrowValidationError } from "@infra/http/express/middlawares/throw-validation-error";
 import { EventsService } from "@application/services/events.service";
 import { Controller } from "./controller";
+import { CredentialMiddlaware } from "../middlawares/credentail-middlaware";
 
 export class EventsController extends Controller {
-	constructor(private eventsService: EventsService) {
+	constructor(
+		private eventsService: EventsService,
+		private credentialMiddlaware: CredentialMiddlaware,
+	) {
 		super({
 			route: "events",
 			handlers: [
@@ -14,6 +18,7 @@ export class EventsController extends Controller {
 						body("code").isString(),
 						body("text").isString(),
 						ThrowValidationError,
+						(() => this.credentialMiddlaware.handler)()
 					],
 					handlerFunction: async (req, res) => {
 						const event = await this.eventsService.create(req.body);
