@@ -9,7 +9,8 @@ const neededEnvVariables = [
     "DATABASE_URL",
     "CORS_ORIGIN",
     "PORT",
-    "SESSION_SECRET"
+    "SESSION_SECRET",
+    "RABBITMQ_URL"
 ];
 
 const missingEnv = [];
