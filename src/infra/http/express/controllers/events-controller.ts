@@ -2,12 +2,11 @@ import { body, query } from "express-validator";
 import { ThrowValidationError } from "@infra/http/express/middlawares/throw-validation-error";
 import { EventsService } from "@application/services/events.service";
 import { Controller } from "./controller";
-import { CredentialMiddlaware } from "../middlawares/credentail-middlaware";
+import { ForbiddenError } from "@infra/http/errors/forbidden-error";
 
 export class EventsController extends Controller {
 	constructor(
 		private eventsService: EventsService,
-		private credentialMiddlaware: CredentialMiddlaware,
 	) {
 		super({
 			route: "events",
@@ -15,13 +14,18 @@ export class EventsController extends Controller {
 				{
 					method: "post",
 					middlawares: [
-						body("code").isString(),
 						body("text").isString(),
 						ThrowValidationError,
-						(() => this.credentialMiddlaware.handler)()
 					],
 					handlerFunction: async (req, res) => {
-						const event = await this.eventsService.create(req.body);
+						console.log(req.headers.authorization)
+						const credential = await this.eventsService.getCredential(req.headers.authorization.split(' ')[1]);
+						if (!credential) throw new ForbiddenError('sem acesso!');
+
+						const event = await this.eventsService.create({
+							code: credential.eventCode,
+							text: req.body.text,
+						});
 						return res.status(201).send({ event });
 					},
 				},
