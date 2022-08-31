@@ -3,10 +3,12 @@ import { ThrowValidationError } from "@infra/http/express/middlawares/throw-vali
 import { EventsService } from "@application/services/events.service";
 import { Controller } from "./controller";
 import { ForbiddenError } from "@infra/http/errors/forbidden-error";
+import { CreateEvent } from "@application/use-cases/create-event";
 
 export class EventsController extends Controller {
 	constructor(
 		private eventsService: EventsService,
+		private createEvent: CreateEvent,
 	) {
 		super({
 			route: "events",
@@ -22,7 +24,7 @@ export class EventsController extends Controller {
 						const credential = await this.eventsService.getCredential(req.headers.authorization.split(' ')[1]);
 						if (!credential) throw new ForbiddenError('sem acesso!');
 
-						const event = await this.eventsService.create({
+						const event = await this.createEvent.exec({
 							code: credential.eventCode,
 							text: req.body.text,
 						});

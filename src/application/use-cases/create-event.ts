@@ -1,23 +1,20 @@
-import { NotifyReceivers } from "@application/use-cases/notify-receivers";
 import { EventsRepository } from "@application/repositories/events/events.repository";
-
+import { Publisher } from "@infra/mqtt/publisher";
+class ExecDTO {
+    text: string;
+    code: string;
+}
 
 export class CreateEvent {
-    
+
     constructor(
-        private notifyReceivers: NotifyReceivers,
-        private eventsRepository: EventsRepository
+        private eventsRepository: EventsRepository,
+        private publisher: Publisher,
     ) {}
 
-    async exec({
-        text,
-        code
-    } : {
-        text: string;
-        code: string
-    }) {
-        const event = await this.eventsRepository.create({ code, text });
-        await this.notifyReceivers.exec({ event, text });
+    async exec(data: ExecDTO) {
+        const event = await this.eventsRepository.create({ ...data });
+        await this.publisher.publish(event);
         return event;
     }
 }

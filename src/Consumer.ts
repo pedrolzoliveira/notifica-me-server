@@ -1,7 +1,7 @@
 const amqplib = require('amqplib');
 
 (async () => {
-  const queue = 'tasks';
+  const queue = 'event-created';
   const conn = await amqplib.connect('amqp://localhost');
 
   const ch1 = await conn.createChannel();

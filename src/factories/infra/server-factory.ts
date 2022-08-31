@@ -20,7 +20,7 @@ export class ServerFactory implements Factory<Server> {
             );
             server.registerControllers([
                 new EventTypesControllerFactory().create(),
-                new EventsControllerFactory().create(),
+                await new EventsControllerFactory().create(),
                 new CustomersControllerFactory().create(),
                 new ReceiversControllerFactory().create(),
                 new NotificationsControllerFactory().create(),

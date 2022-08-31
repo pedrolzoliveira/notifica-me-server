@@ -17,7 +17,7 @@ export class Publisher {
     }
 
     async publish(content: Object) {
-        const contentString = content.toString();
+        const contentString = JSON.stringify(content);
         this.channel.sendToQueue(this.queue, Buffer.from(contentString));
     }
 }
