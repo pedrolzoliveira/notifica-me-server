@@ -13,7 +13,7 @@ export class CreateEvent {
     ) {}
 
     async exec(data: ExecDTO) {
-        const event = await this.eventsRepository.create({ ...data });
+        const event = await this.eventsRepository.create(data);
         await this.publisher.publish(event);
         return event;
     }

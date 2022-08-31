@@ -1,6 +1,6 @@
 import { Receiver } from "@domain/receiver.model";
 import { ReceiversRepository } from "./receivers.repository";
-import { PrismaClient } from "@prisma/client";
+import { Event, PrismaClient } from "@prisma/client";
 import { CreateReceiver } from "@application/dtos/create-receiver.dto";
 import { RegisterEventCustomer } from "@application/dtos/register-event-customer.dto";
 import { UpdateReceiver } from "@application/dtos/update-receiver.dto";
@@ -85,5 +85,23 @@ export class ReceiversPrismaRepository implements ReceiversRepository {
             }
         });
         return receiver;
+    }
+
+    async getUnotifiedReceivers(event: Event): Promise<Receiver[]> {
+        const notifications = await this.prisma.notification.findMany({ select: {
+            receiverId: true,
+        }, where: { eventId: event.id } });
+        
+        const receivers = await this.prisma.receiver.findMany({
+            where: {
+                id: {
+                    notIn: notifications.map(notification => notification.receiverId)
+                },
+                events: {
+                    some: { code: event.code }
+                },
+            }
+        });
+        return receivers;
     }
 }

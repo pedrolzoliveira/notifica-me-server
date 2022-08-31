@@ -8,7 +8,6 @@ export class Listener {
         this.consumer = new Consumer('event-created', (msg) => {
             const contentString = msg.content.toString();
             const obj = JSON.parse(contentString);
-            
         });
         await this.consumer.init();
     }
