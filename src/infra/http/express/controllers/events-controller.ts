@@ -20,7 +20,6 @@ export class EventsController extends Controller {
 						ThrowValidationError,
 					],
 					handlerFunction: async (req, res) => {
-						console.log(req.headers.authorization)
 						const credential = await this.eventsService.getCredential(req.headers.authorization.split(' ')[1]);
 						if (!credential) throw new ForbiddenError('sem acesso!');
 
