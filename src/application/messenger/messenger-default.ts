@@ -15,11 +15,14 @@ export class MessengerDefault implements Messenger {
     }) {
         switch (by) {
             case "whatsapp": {
+                console.log('borraaaa')
+                const message_ =
                 await this.twilioClient.messages.create({
-                    to: `whatsapp:${number}`,
+                    to: `whatsapp:+${number}`,
                     body: message,
                     from: process.env.TWILIO_NUMBER
-                })
+                });
+                console.log(message_);
                 break;
             }
             default: {

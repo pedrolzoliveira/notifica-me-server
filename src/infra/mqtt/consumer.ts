@@ -12,7 +12,6 @@ export class Consumer {
 
     async init() {
         this.conn = await amqplib.connect(process.env.RABBITMQ_URL, { heartbeat: 1 });
-        this.conn.on('error', (e) => { console.log('deu erro'); console.error(e) });
         this.channel = await this.conn.createChannel();
         await this.channel.assertQueue(this.queue);
     }
@@ -20,4 +19,13 @@ export class Consumer {
     async start() {
         await this.channel.consume(this.queue, this.handler);
     }
+
+    public ack(msg: ConsumeMessage) {
+        this.channel.ack(msg);
+    }
+
+    public reject(msg: ConsumeMessage) {
+        this.channel.reject(msg);
+    }
+    
 }

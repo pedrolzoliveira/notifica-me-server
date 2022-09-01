@@ -49,7 +49,7 @@ export class ReceiversController extends Controller {
                     method: "put",
                     middlawares: [
                         body("id").isString(),
-                        body("name").isString().isLength({ min: 3 }),
+                        body("name").isString().isLength({ min: 3 }).optional(),
                         body("events").isArray(),
                         ThrowValidationError,
                         async (req, res, next) => {
