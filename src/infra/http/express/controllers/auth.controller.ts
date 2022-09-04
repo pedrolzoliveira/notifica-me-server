@@ -13,6 +13,17 @@ export class AuthController extends Controller {
         route: "auth",
         handlers: [
             {
+                method: 'get',
+                name: 'info',
+                handlerFunction: (req, res) => {
+                    if (!req.session.admin && !req.session.customer) return res.status(401).send();
+                    return res.status(200).send({
+                        admin: req.session.admin,
+                        customer: req.session.customer
+                    });
+                }
+            },
+            {
                 method: "post",
                 name: "signup",
                 middlawares: [
