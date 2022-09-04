@@ -12,13 +12,11 @@ export class EventTypesController extends Controller {
     ) {
         super({
             route: "event-types",
-            middlewares: [
-                AuthMiddlaware("admin"),
-            ],
             handlers: [
                 {
                     method: "post",
                     middlawares: [
+                        AuthMiddlaware("admin"),
                         body('code').isString().isLength({ min: 3 }),
                         body('name').isString().isLength({ min: 5 }),
                         body('description').isString().optional(),
@@ -50,6 +48,7 @@ export class EventTypesController extends Controller {
                 {
                     method: "put",
                     middlawares: [
+                        AuthMiddlaware("admin"),
                         body('code').isString(),
                         body('name').isString().optional(),
                         body('description').isString().optional(),
@@ -70,6 +69,7 @@ export class EventTypesController extends Controller {
                 {
                     method: "delete",
                     middlawares: [
+                        AuthMiddlaware("admin"),
                         body('code').isString(),
                         ThrowValidationError,
                         async (req, res, next) => {
