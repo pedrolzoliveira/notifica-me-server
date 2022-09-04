@@ -6,7 +6,7 @@ export type Receiver = {
     id?: string;
     customer?: Customer;
     name: string;
-    registeredEvents?: any[];
+    events?: any[];
     number: string;
     messenger: MessengerType;
 }

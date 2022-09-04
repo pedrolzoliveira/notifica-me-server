@@ -13,7 +13,8 @@ export class Server {
         this.app = express();
         this.app.use(json());
         this.app.use(cors({
-            origin: process.env.CORS_ORIGIN
+            origin: process.env.CORS_ORIGIN,
+            credentials: true,
         }));
         this.app.use(session);
     }
