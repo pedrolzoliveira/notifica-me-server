@@ -1,4 +1,4 @@
 export class DeleteReceiverDTO {
-    id: string;
-    customerId: string;
+  id: string
+  customerId: string
 }

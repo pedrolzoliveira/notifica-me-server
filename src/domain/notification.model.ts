@@ -1,8 +1,8 @@
-import { Receiver } from "./receiver.model";
-import { Event } from "./event.model";
+import { Receiver } from './receiver.model'
+import { Event } from './event.model'
 
-export type Notification = {
-    event: Event;
-    receiver: Receiver;
-    createdAt: Date;
+export interface Notification {
+  event: Event
+  receiver: Receiver
+  createdAt: Date
 }

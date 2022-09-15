@@ -1,12 +1,11 @@
-import { NotificationsRepository } from "@application/repositories/notifications/notifications.repository";
-
+import { NotificationsRepository } from '@application/repositories/notifications/notifications.repository'
 
 export class NotificationService {
-    constructor(
-        private notificationsRepository: NotificationsRepository
-    ) {}
+  constructor(
+    private readonly notificationsRepository: NotificationsRepository
+  ) {}
 
-    findAll(skip?: number) {
-        return this.notificationsRepository.findAll(skip);
-    }
+  async findAll(skip?: number) {
+    return await this.notificationsRepository.findAll(skip)
+  }
 }

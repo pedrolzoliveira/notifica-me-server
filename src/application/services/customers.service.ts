@@ -1,21 +1,20 @@
-import { CreateCustomer } from "@application/dtos/create-customer.dto";
-import { CustomersRepository } from "@application/repositories/customers/customers.repository";
+import { CreateCustomer } from '@application/dtos/create-customer.dto'
+import { CustomersRepository } from '@application/repositories/customers/customers.repository'
 
 export class CustomersService {
-    constructor(
-        private customersRepository: CustomersRepository
-    ) {}
+  constructor(
+    private readonly customersRepository: CustomersRepository
+  ) {}
 
-    create(data: CreateCustomer) {
-        return this.customersRepository.create(data);
-    }
+  async create(data: CreateCustomer) {
+    return await this.customersRepository.create(data)
+  }
 
-    findAll() {
-        return this.customersRepository.findAll();
-    }
+  async findAll() {
+    return await this.customersRepository.findAll()
+  }
 
-    findByEmail(email: string) {
-        return this.customersRepository.findByEmail(email);
-    }
-
+  async findByEmail(email: string) {
+    return await this.customersRepository.findByEmail(email)
+  }
 }

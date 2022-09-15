@@ -1,4 +1,4 @@
 export class HasPermissionReceiverDTO {
-    id: string;
-    customerId: string;
+  id: string
+  customerId: string
 }

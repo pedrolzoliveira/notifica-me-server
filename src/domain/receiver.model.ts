@@ -1,12 +1,12 @@
-import { Customer } from "./customer.model";
+import { Customer } from './customer.model'
 
-export type MessengerType = "whatsapp" | "telegram" | "sms";
+export type MessengerType = 'whatsapp' | 'telegram' | 'sms'
 
-export type Receiver = {
-    id?: string;
-    customer?: Customer;
-    name: string;
-    events?: any[];
-    number: string;
-    messenger: MessengerType;
+export interface Receiver {
+  id?: string
+  customer?: Customer
+  name: string
+  events?: any[]
+  number: string
+  messenger: MessengerType
 }

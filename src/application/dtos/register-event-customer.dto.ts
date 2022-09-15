@@ -1,5 +1,5 @@
 export class RegisterEventCustomer {
-    receiverId: string;
-    eventCode: string;
-    customerId: string;
+  receiverId: string
+  eventCode: string
+  customerId: string
 }

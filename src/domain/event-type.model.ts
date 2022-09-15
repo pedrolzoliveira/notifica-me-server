@@ -1,5 +1,5 @@
-export type EventType = {
-    code: string;
-    name: string;
-    description: string;
+export interface EventType {
+  code: string
+  name: string
+  description: string
 }

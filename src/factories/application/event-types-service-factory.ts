@@ -1,19 +1,18 @@
-import { EventTypesService } from "@application/services/event-types.service";
+import { EventTypesService } from '@application/services/event-types.service'
 
-import { EventTypesRepositoryFactory } from "./event-types-repository-factory";
+import { EventTypesRepositoryFactory } from './event-types-repository-factory'
 
-import { FactoryError } from "@errors/factory-error";
-import { Factory } from "@interfaces/factory";
+import { FactoryError } from '@errors/factory-error'
+import { Factory } from '@interfaces/factory'
 
-
-export class EventTypeServiceFactory  implements Factory<EventTypesService> {
-    create(): EventTypesService {
-        try {
-            const eventTypesRepository = new EventTypesRepositoryFactory().create("prisma");
-            const eventTypesService = new EventTypesService(eventTypesRepository);
-            return eventTypesService;
-        } catch(error) {
-            throw new FactoryError(EventTypeServiceFactory, error);
-        }
+export class EventTypeServiceFactory implements Factory<EventTypesService> {
+  create(): EventTypesService {
+    try {
+      const eventTypesRepository = new EventTypesRepositoryFactory().create('prisma')
+      const eventTypesService = new EventTypesService(eventTypesRepository)
+      return eventTypesService
+    } catch (error) {
+      throw new FactoryError(EventTypeServiceFactory, error)
     }
+  }
 }

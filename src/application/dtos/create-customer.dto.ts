@@ -1,5 +1,5 @@
 export class CreateCustomer {
-    name: string;
-    email: string;
-    passwordHash: string;
+  name: string
+  email: string
+  passwordHash: string
 }

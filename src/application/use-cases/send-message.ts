@@ -1,10 +1,8 @@
-import { Receiver } from "@domain/receiver.model";
-
+import { Receiver } from '@domain/receiver.model'
 
 export class SendMessage {
-    constructor(private receiver: Receiver) {}
+  constructor(private readonly receiver: Receiver) {}
 
-    exec(message: string) {
-    }
-
+  exec(message: string) {
+  }
 }

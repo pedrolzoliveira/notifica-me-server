@@ -1,7 +1,7 @@
-import { BaseError } from "./base-error";
+import { BaseError } from './base-error'
 
 export class BadGetawayError extends BaseError {
-    constructor(message: string) {
-        super(message, 502);
-    }
+  constructor(message: string) {
+    super(message, 502)
+  }
 }

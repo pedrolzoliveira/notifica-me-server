@@ -1,22 +1,21 @@
-import { PrismaClient } from "@prisma/client";
-
+import { PrismaClient } from '@prisma/client'
 
 class createDTO {
-    name: string;
-    email: string;
-    passwordHash: string;
+  name: string
+  email: string
+  passwordHash: string
 }
 
 export class AdminService {
-    constructor(
-        private db: PrismaClient
-    ) {}
+  constructor(
+    private readonly db: PrismaClient
+  ) {}
 
-    create(data: createDTO) {
-        return this.db.admin.create({ data });
-    }
+  create(data: createDTO) {
+    return this.db.admin.create({ data })
+  }
 
-    findByEmail(email: string) {
-        return this.db.admin.findUnique({where: { email }});
-    }
+  findByEmail(email: string) {
+    return this.db.admin.findUnique({ where: { email } })
+  }
 }

@@ -1,5 +1,5 @@
 export class CreateEvent {
-    code: string;
-    text: string;
-    createdAt?: Date;
+  code: string
+  text: string
+  createdAt?: Date
 }

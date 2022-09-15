@@ -1,7 +1,5 @@
-import { Receiver } from "@prisma/client";
-
+import { Receiver } from '@prisma/client'
 
 export class ReceiverTransformer {
-    
-    constructor() {}
+  constructor() {}
 }
