@@ -37,7 +37,8 @@ model EventType {
     updatedAt DateTime @updatedAt
     events Event[]
     receivers Receiver[]
-    plans Plan[]
+    plan Plan @relation(fields: [planId], references: [id])
+    planId String
     credentials Credential[]
 }
 
