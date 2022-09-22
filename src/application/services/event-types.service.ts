@@ -38,4 +38,20 @@ export class EventTypesService {
     const eventType = await this.db.eventType.findUnique({ select: { adminId: true }, where: { code: data.code } })
     return eventType.adminId === data.adminId
   }
+
+  async findByPlans(customerId: string) {
+    const { plans } = await this.db.customer.findUnique({
+      select: {
+        plans: true
+      },
+      where: { id: customerId }
+    })
+    return await this.db.eventType.findMany({
+      where: {
+        planId: {
+          in: plans.map(plan => plan.id)
+        }
+      }
+    })
+  }
 }

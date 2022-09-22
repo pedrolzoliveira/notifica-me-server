@@ -14,6 +14,7 @@ model Customer {
     passwordHash String
     createdAt DateTime @default(now())
     receivers Receiver[]
+    plans Plan[]
 }
 
 model Receiver {
@@ -68,6 +69,7 @@ model Plan {
     description String
     price Int
     events EventType[]
+    customers Customer[]
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }

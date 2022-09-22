@@ -40,7 +40,7 @@ export class EventTypesController extends Controller {
               const eventType = await this.eventTypesService.findByCode(code)
               return res.status(200).send({ eventType })
             }
-            const eventTypes = await this.eventTypesService.findAll()
+            const eventTypes = await this.eventTypesService.findByPlans(req.session.customer.id)
             return res.status(200).send({ eventTypes })
           }
         },
