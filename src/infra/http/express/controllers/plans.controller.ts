@@ -1,5 +1,6 @@
 import { PlansService } from '@application/services/plans.service'
 import { body, query } from 'express-validator'
+import { AuthMiddlaware } from '../middlawares/auth-middlaware'
 import { ThrowValidationError } from '../middlawares/throw-validation-error'
 import { Controller } from './controller'
 
@@ -22,6 +23,17 @@ export class PlansController extends Controller {
               return res.status(200).send({ plan })
             }
             const plans = await this.plansService.findAll()
+            return res.status(200).send({ plans })
+          }
+        },
+        {
+          method: 'get',
+          name: 'my-plans',
+          middlawares: [
+            AuthMiddlaware('customer')
+          ],
+          handlerFunction: async (req, res) => {
+            const plans = await this.plansService.findAllByCustomer(req.session.customer.id)
             return res.status(200).send({ plans })
           }
         },
