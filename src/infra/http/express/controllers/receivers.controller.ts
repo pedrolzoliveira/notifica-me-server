@@ -1,6 +1,7 @@
 import { ReceiversService } from '@application/services/receivers.service'
 import { BadRequestError } from '@infra/http/errors/bad-request-error'
 import { ForbiddenError } from '@infra/http/errors/forbidden-error'
+import { transformResponse } from '@infra/http/transformers/response'
 import { body } from 'express-validator'
 import { AuthMiddlaware } from '../middlawares/auth-middlaware'
 import { ThrowValidationError } from '../middlawares/throw-validation-error'
@@ -20,7 +21,11 @@ export class ReceiversController extends Controller {
           method: 'get',
           handlerFunction: async (req, res) => {
             const receivers = await this.receiversService.findAll(req.session.customer.id)
-            return res.status(200).send({ receivers })
+            return res.status(200).send(
+              transformResponse({
+                data: { receivers }
+              })
+            )
           }
         },
         {
@@ -42,7 +47,11 @@ export class ReceiversController extends Controller {
               messenger: req.body.messenger
             }
             const receiver = await this.receiversService.create(data)
-            return res.status(201).send({ receiver })
+            return res.status(201).send(
+              transformResponse({
+                data: { receiver }
+              })
+            )
           }
         },
         {
@@ -65,9 +74,13 @@ export class ReceiversController extends Controller {
           ],
           handlerFunction: async (req, res) => {
             const receiver = await this.receiversService.update(req.body)
-            return res.status(201).send({ receiver })
+            return res.status(201).send(
+              transformResponse({
+                data: { receiver }
+              })
+            )
           }
-        },,
+        },
         {
           method: 'delete',
           middlawares: [
@@ -86,7 +99,9 @@ export class ReceiversController extends Controller {
           ],
           handlerFunction: async (req, res) => {
             await this.receiversService.delete(req.body.id)
-            return res.status(200).send()
+            return res.status(200).send(
+              transformResponse()
+            )
           }
         }
       ]

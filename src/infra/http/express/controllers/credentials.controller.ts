@@ -4,6 +4,7 @@ import { ThrowValidationError } from '@infra/http/express/middlawares/throw-vali
 import { Controller } from './controller'
 import { AuthMiddlaware } from '../middlawares/auth-middlaware'
 import { ForbiddenError } from '@infra/http/errors/forbidden-error'
+import { transformResponse } from '@infra/http/transformers/response'
 
 export class CrendetialsController extends Controller {
   constructor(
@@ -29,14 +30,22 @@ export class CrendetialsController extends Controller {
               adminId: req.session.admin.id
             }
             const credential = await this.credentialsService.create(data)
-            return res.status(201).send({ credential })
+            return res.status(201).send(
+              transformResponse({
+                data: { credential }
+              })
+            )
           }
         },
         {
           method: 'get',
           handlerFunction: async (req, res) => {
             const credentials = await this.credentialsService.findAll(req.session.admin.id)
-            return res.status(200).send({ credentials })
+            return res.status(200).send(
+              transformResponse({
+                data: { credentials }
+              })
+            )
           }
         },
         {
@@ -54,7 +63,9 @@ export class CrendetialsController extends Controller {
           ],
           handlerFunction: async (req, res) => {
             await this.credentialsService.delete(req.body.id)
-            return res.status(200).send()
+            return res.status(200).send(
+              transformResponse()
+            )
           }
         }
       ]

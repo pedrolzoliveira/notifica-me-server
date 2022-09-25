@@ -1,6 +1,7 @@
 import { AuthService } from '@application/services/auth.service'
 import { ForbiddenError } from '@infra/http/errors/forbidden-error'
 import { NotFoundError } from '@infra/http/errors/not-found-error'
+import { transformResponse } from '@infra/http/transformers/response'
 import { body } from 'express-validator'
 import { ThrowValidationError } from '../middlawares/throw-validation-error'
 import { Controller } from './controller'
@@ -17,10 +18,14 @@ export class AuthController extends Controller {
           name: 'info',
           handlerFunction: (req, res) => {
             if (!req.session.admin && !req.session.customer) return res.status(401).send()
-            return res.status(200).send({
-              admin: req.session.admin,
-              customer: req.session.customer
-            })
+            return res.status(200).send(
+              transformResponse({
+                data: {
+                  admin: req.session.admin,
+                  customer: req.session.customer
+                }
+              })
+            )
           }
         },
         {
@@ -36,7 +41,11 @@ export class AuthController extends Controller {
           handlerFunction: async (req, res) => {
             const customer = await this.authService.signUp(req.body)
             req.session.customer = customer
-            return res.status(201).send({ customer })
+            return res.status(201).send(
+              transformResponse({
+                data: { customer }
+              })
+            )
           }
         },
         {
@@ -51,7 +60,11 @@ export class AuthController extends Controller {
             try {
               const customer = await this.authService.signIn(req.body)
               req.session.customer = customer
-              return res.status(200).send({ customer })
+              return res.status(200).send(
+                transformResponse({
+                  data: { customer }
+                })
+              )
             } catch (error) {
               if (error.message === 'Customer not found') {
                 throw new NotFoundError(error.message)
@@ -75,7 +88,11 @@ export class AuthController extends Controller {
           handlerFunction: async (req, res) => {
             const admin = await this.authService.signUpAdmin(req.body)
             req.session.admin = admin
-            return res.status(201).send({ admin })
+            return res.status(201).send(
+              transformResponse({
+                data: { admin }
+              })
+            )
           }
         },
         {
@@ -90,7 +107,11 @@ export class AuthController extends Controller {
             try {
               const admin = await this.authService.signInAdmin(req.body)
               req.session.admin = admin
-              return res.status(200).send({ admin })
+              return res.status(200).send(
+                transformResponse({
+                  data: { admin }
+                })
+              )
             } catch (error) {
               if (error.message === 'Admin not found') {
                 throw new NotFoundError(error.message)

@@ -1,6 +1,7 @@
 import { EventTypesService } from '@application/services/event-types.service'
 import { ForbiddenError } from '@infra/http/errors/forbidden-error'
 import { ThrowValidationError } from '@infra/http/express/middlawares/throw-validation-error'
+import { transformResponse } from '@infra/http/transformers/response'
 import { body } from 'express-validator'
 import { AuthMiddlaware } from '../middlawares/auth-middlaware'
 import { Controller } from './controller'
@@ -29,7 +30,11 @@ export class EventTypesController extends Controller {
               description: req.body.description
             }
             const eventType = await this.eventTypesService.create(data)
-            return res.status(201).send({ eventType })
+            return res.status(201).send(
+              transformResponse({
+                data: { eventType }
+              })
+            )
           }
         },
         {
@@ -38,10 +43,18 @@ export class EventTypesController extends Controller {
             const code = req.query.code as string
             if (code) {
               const eventType = await this.eventTypesService.findByCode(code)
-              return res.status(200).send({ eventType })
+              return res.status(200).send(
+                transformResponse({
+                  data: { eventType }
+                })
+              )
             }
             const eventTypes = await this.eventTypesService.findByPlans(req.session.customer.id)
-            return res.status(200).send({ eventTypes })
+            return res.status(200).send(
+              transformResponse({
+                data: { eventTypes }
+              })
+            )
           }
         },
         {
@@ -62,7 +75,11 @@ export class EventTypesController extends Controller {
           ],
           handlerFunction: async (req, res) => {
             const eventType = await this.eventTypesService.update(req.body)
-            return res.status(200).send({ eventType })
+            return res.status(200).send(
+              transformResponse({
+                data: { eventType }
+              })
+            )
           }
         },
         {

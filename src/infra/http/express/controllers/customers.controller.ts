@@ -1,9 +1,8 @@
 import { CustomersService } from '@application/services/customers.service'
 import { Controller } from './controller'
-
 import { ThrowValidationError } from '@infra/http/express/middlawares/throw-validation-error'
-
 import { body } from 'express-validator'
+import { transformResponse } from '@infra/http/transformers/response'
 
 export class CustomersController extends Controller {
   constructor(
@@ -22,14 +21,22 @@ export class CustomersController extends Controller {
           ],
           handlerFunction: async (req, res) => {
             const customer = await this.customersService.create(req.body)
-            return res.status(201).send({ customer })
+            return res.status(201).send(
+              transformResponse({
+                data: { customer }
+              })
+            )
           }
         },
         {
           method: 'get',
           handlerFunction: async (req, res) => {
             const customers = await this.customersService.findAll()
-            return res.status(200).send({ customers })
+            return res.status(200).send(
+              transformResponse({
+                data: { customers }
+              })
+            )
           }
         }
       ]

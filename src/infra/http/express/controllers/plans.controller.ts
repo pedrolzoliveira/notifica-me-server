@@ -1,4 +1,5 @@
 import { PlansService } from '@application/services/plans.service'
+import { transformResponse } from '@infra/http/transformers/response'
 import { body, query } from 'express-validator'
 import { AuthMiddlaware } from '../middlawares/auth-middlaware'
 import { ThrowValidationError } from '../middlawares/throw-validation-error'
@@ -20,10 +21,18 @@ export class PlansController extends Controller {
           handlerFunction: async (req, res) => {
             if (req.query.id) {
               const plan = await this.plansService.find(req.query.id as string)
-              return res.status(200).send({ plan })
+              return res.status(200).send(
+                transformResponse({
+                  data: { plan }
+                })
+              )
             }
             const plans = await this.plansService.findAll()
-            return res.status(200).send({ plans })
+            return res.status(200).send(
+              transformResponse({
+                data: { plans }
+              })
+            )
           }
         },
         {
@@ -34,7 +43,11 @@ export class PlansController extends Controller {
           ],
           handlerFunction: async (req, res) => {
             const plans = await this.plansService.findAllByCustomer(req.session.customer.id)
-            return res.status(200).send({ plans })
+            return res.status(200).send(
+              transformResponse({
+                data: { plans }
+              })
+            )
           }
         },
         {
@@ -47,7 +60,11 @@ export class PlansController extends Controller {
           ],
           handlerFunction: async (req, res) => {
             const plan = await this.plansService.create(req.body)
-            return res.status(201).send({ plan })
+            return res.status(201).send(
+              transformResponse({
+                data: { plan }
+              })
+            )
           }
         },
         {
@@ -58,7 +75,9 @@ export class PlansController extends Controller {
           ],
           handlerFunction: async (req, res) => {
             await this.plansService.delete(req.body.id)
-            return res.status(200).send()
+            return res.status(200).send(
+              transformResponse()
+            )
           }
         },
         {

@@ -4,6 +4,7 @@ import { EventsService } from '@application/services/events.service'
 import { Controller } from './controller'
 import { ForbiddenError } from '@infra/http/errors/forbidden-error'
 import { CreateEvent } from '@application/use-cases/create-event'
+import { transformResponse } from '@infra/http/transformers/response'
 
 export class EventsController extends Controller {
   constructor(
@@ -27,7 +28,11 @@ export class EventsController extends Controller {
               code: credential.eventCode,
               text: req.body.text
             })
-            return res.status(201).send({ event })
+            return res.status(201).send(
+              transformResponse({
+                data: { event }
+              })
+            )
           }
         },
         {
@@ -42,7 +47,11 @@ export class EventsController extends Controller {
               code: req.query.code as string,
               skip: Number(req.query.skip || 20)
             })
-            return res.status(200).send({ events })
+            return res.status(200).send(
+              transformResponse({
+                data: { events }
+              })
+            )
           }
         }
       ]
