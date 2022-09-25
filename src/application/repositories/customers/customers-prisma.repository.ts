@@ -20,7 +20,13 @@ export class CustomersPrismaRepository implements CustomersRepository {
   }
 
   async findAll(): Promise<Customer[]> {
-    return await this.prisma.customer.findMany()
+    return await this.prisma.customer.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true
+      }
+    })
   }
 
   async findByEmail(email: string): Promise<Customer & { passwordHash: string }> {
