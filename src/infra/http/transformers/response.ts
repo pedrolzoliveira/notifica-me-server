@@ -1,7 +1,7 @@
 import { Response } from '@interfaces/response'
 
 interface transformResponseParams {
-  data?: any
+  payload?: any
   errors?: any[]
   message?: string
 }

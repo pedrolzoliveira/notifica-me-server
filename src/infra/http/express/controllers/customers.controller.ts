@@ -23,7 +23,7 @@ export class CustomersController extends Controller {
             const customer = await this.customersService.create(req.body)
             return res.status(201).send(
               transformResponse({
-                data: { customer }
+                payload: { customer }
               })
             )
           }
@@ -34,7 +34,7 @@ export class CustomersController extends Controller {
             const customers = await this.customersService.findAll()
             return res.status(200).send(
               transformResponse({
-                data: { customers }
+                payload: { customers }
               })
             )
           }

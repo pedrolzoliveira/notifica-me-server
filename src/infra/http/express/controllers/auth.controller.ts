@@ -20,7 +20,7 @@ export class AuthController extends Controller {
             if (!req.session.admin && !req.session.customer) return res.status(401).send()
             return res.status(200).send(
               transformResponse({
-                data: {
+                payload: {
                   admin: req.session.admin,
                   customer: req.session.customer
                 }
@@ -43,7 +43,7 @@ export class AuthController extends Controller {
             req.session.customer = customer
             return res.status(201).send(
               transformResponse({
-                data: { customer }
+                payload: { customer }
               })
             )
           }
@@ -62,7 +62,7 @@ export class AuthController extends Controller {
               req.session.customer = customer
               return res.status(200).send(
                 transformResponse({
-                  data: { customer }
+                  payload: { customer }
                 })
               )
             } catch (error) {
@@ -90,7 +90,7 @@ export class AuthController extends Controller {
             req.session.admin = admin
             return res.status(201).send(
               transformResponse({
-                data: { admin }
+                payload: { admin }
               })
             )
           }
@@ -109,7 +109,7 @@ export class AuthController extends Controller {
               req.session.admin = admin
               return res.status(200).send(
                 transformResponse({
-                  data: { admin }
+                  payload: { admin }
                 })
               )
             } catch (error) {

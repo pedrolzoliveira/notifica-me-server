@@ -23,7 +23,7 @@ export class ReceiversController extends Controller {
             const receivers = await this.receiversService.findAll(req.session.customer.id)
             return res.status(200).send(
               transformResponse({
-                data: { receivers }
+                payload: { receivers }
               })
             )
           }
@@ -49,7 +49,7 @@ export class ReceiversController extends Controller {
             const receiver = await this.receiversService.create(data)
             return res.status(201).send(
               transformResponse({
-                data: { receiver }
+                payload: { receiver }
               })
             )
           }
@@ -76,7 +76,7 @@ export class ReceiversController extends Controller {
             const receiver = await this.receiversService.update(req.body)
             return res.status(201).send(
               transformResponse({
-                data: { receiver }
+                payload: { receiver }
               })
             )
           }

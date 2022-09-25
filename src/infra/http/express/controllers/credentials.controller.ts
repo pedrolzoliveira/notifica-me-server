@@ -32,7 +32,7 @@ export class CrendetialsController extends Controller {
             const credential = await this.credentialsService.create(data)
             return res.status(201).send(
               transformResponse({
-                data: { credential }
+                payload: { credential }
               })
             )
           }
@@ -43,7 +43,7 @@ export class CrendetialsController extends Controller {
             const credentials = await this.credentialsService.findAll(req.session.admin.id)
             return res.status(200).send(
               transformResponse({
-                data: { credentials }
+                payload: { credentials }
               })
             )
           }

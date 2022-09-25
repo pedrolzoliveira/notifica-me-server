@@ -32,7 +32,7 @@ export class EventTypesController extends Controller {
             const eventType = await this.eventTypesService.create(data)
             return res.status(201).send(
               transformResponse({
-                data: { eventType }
+                payload: { eventType }
               })
             )
           }
@@ -45,14 +45,14 @@ export class EventTypesController extends Controller {
               const eventType = await this.eventTypesService.findByCode(code)
               return res.status(200).send(
                 transformResponse({
-                  data: { eventType }
+                  payload: { eventType }
                 })
               )
             }
             const eventTypes = await this.eventTypesService.findByPlans(req.session.customer.id)
             return res.status(200).send(
               transformResponse({
-                data: { eventTypes }
+                payload: { eventTypes }
               })
             )
           }
@@ -77,7 +77,7 @@ export class EventTypesController extends Controller {
             const eventType = await this.eventTypesService.update(req.body)
             return res.status(200).send(
               transformResponse({
-                data: { eventType }
+                payload: { eventType }
               })
             )
           }

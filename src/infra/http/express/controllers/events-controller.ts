@@ -30,7 +30,7 @@ export class EventsController extends Controller {
             })
             return res.status(201).send(
               transformResponse({
-                data: { event }
+                payload: { event }
               })
             )
           }
@@ -49,7 +49,7 @@ export class EventsController extends Controller {
             })
             return res.status(200).send(
               transformResponse({
-                data: { events }
+                payload: { events }
               })
             )
           }

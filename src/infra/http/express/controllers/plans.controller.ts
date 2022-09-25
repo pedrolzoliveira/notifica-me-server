@@ -23,14 +23,14 @@ export class PlansController extends Controller {
               const plan = await this.plansService.find(req.query.id as string)
               return res.status(200).send(
                 transformResponse({
-                  data: { plan }
+                  payload: { plan }
                 })
               )
             }
             const plans = await this.plansService.findAll()
             return res.status(200).send(
               transformResponse({
-                data: { plans }
+                payload: { plans }
               })
             )
           }
@@ -45,7 +45,7 @@ export class PlansController extends Controller {
             const plans = await this.plansService.findAllByCustomer(req.session.customer.id)
             return res.status(200).send(
               transformResponse({
-                data: { plans }
+                payload: { plans }
               })
             )
           }
@@ -62,7 +62,7 @@ export class PlansController extends Controller {
             const plan = await this.plansService.create(req.body)
             return res.status(201).send(
               transformResponse({
-                data: { plan }
+                payload: { plan }
               })
             )
           }
@@ -91,7 +91,11 @@ export class PlansController extends Controller {
           ],
           handlerFunction: async (req, res) => {
             const plan = await this.plansService.update(req.body)
-            return res.status(200).send({ plan })
+            return res.status(200).send(
+              transformResponse({
+                payload: { plan }
+              })
+            )
           }
         }
       ]

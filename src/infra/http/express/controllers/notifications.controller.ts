@@ -15,7 +15,7 @@ export class NotificationsController extends Controller {
             const notifications = await this.notificationsService.findAll()
             return res.status(200).send(
               transformResponse({
-                data: { notifications }
+                payload: { notifications }
               })
             )
           }
