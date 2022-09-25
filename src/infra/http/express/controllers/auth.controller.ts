@@ -17,7 +17,9 @@ export class AuthController extends Controller {
           method: 'get',
           name: 'info',
           handlerFunction: (req, res) => {
-            if (!req.session.admin && !req.session.customer) return res.status(401).send()
+            if (!req.session.admin && !req.session.customer) {
+              throw new ForbiddenError('Você não está logado')
+            }
             return res.status(200).send(
               transformResponse({
                 payload: {
