@@ -38,7 +38,6 @@ export class AuthController extends Controller {
             body('password').isString().isStrongPassword(),
             body('name').isString(),
             ThrowValidationError
-
           ],
           handlerFunction: async (req, res) => {
             const customer = await this.authService.signUp(req.body)
@@ -85,7 +84,6 @@ export class AuthController extends Controller {
             body('password').isString().isStrongPassword(),
             body('name').isString(),
             ThrowValidationError
-
           ],
           handlerFunction: async (req, res) => {
             const admin = await this.authService.signUpAdmin(req.body)
