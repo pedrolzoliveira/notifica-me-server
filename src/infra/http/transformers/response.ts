@@ -6,7 +6,7 @@ interface transformResponseParams {
   message?: string
 }
 
-export const transformResponse = (req: transformResponseParams = {}): Response => ({
-  ...req,
-  ok: !req.errors?.length
+export const transformResponse = (res: transformResponseParams = {}): Response => ({
+  ...res,
+  ok: !res.errors?.length
 })
