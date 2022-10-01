@@ -53,13 +53,18 @@ export class PlansController extends Controller {
         {
           method: 'post',
           middlawares: [
+            AuthMiddlaware('admin'),
             body('name').isString(),
             body('description').isString(),
             body('price').isInt(),
             ThrowValidationError
           ],
           handlerFunction: async (req, res) => {
-            const plan = await this.plansService.create(req.body)
+            const data = {
+              ...req.body,
+              adminId: req.session.admin.id
+            }
+            const plan = await this.plansService.create(data)
             return res.status(201).send(
               transformResponse({
                 payload: { plan }
@@ -70,6 +75,7 @@ export class PlansController extends Controller {
         {
           method: 'delete',
           middlawares: [
+            AuthMiddlaware('admin'),
             body('id').isString(),
             ThrowValidationError
           ],
@@ -83,6 +89,7 @@ export class PlansController extends Controller {
         {
           method: 'put',
           middlawares: [
+            AuthMiddlaware('admin'),
             body('id').isString(),
             body('name').isString().optional(),
             body('description').isString().optional(),

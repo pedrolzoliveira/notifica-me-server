@@ -26,6 +26,10 @@ export class EventTypesService {
     return await this.eventTypesRepository.findByCode(code)
   }
 
+  async findByAdmin(adminId: string) {
+    return await this.db.eventType.findMany({ where: { adminId } })
+  }
+
   async update(data: UpdateEventType) {
     return await this.eventTypesRepository.update(data)
   }
@@ -48,8 +52,12 @@ export class EventTypesService {
     })
     return await this.db.eventType.findMany({
       where: {
-        planId: {
-          in: plans.map(plan => plan.id)
+        plan: {
+          some: {
+            id: {
+              in: plans.map(plan => plan.id)
+            }
+          }
         }
       }
     })

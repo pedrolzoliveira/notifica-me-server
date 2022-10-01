@@ -49,12 +49,21 @@ export class EventTypesController extends Controller {
                 })
               )
             }
-            const eventTypes = await this.eventTypesService.findByPlans(req.session.customer.id)
-            return res.status(200).send(
-              transformResponse({
-                payload: { eventTypes }
-              })
-            )
+            if (req.session.admin) {
+              const eventTypes = await this.eventTypesService.findByAdmin(req.session.admin.id)
+              return res.status(200).send(
+                transformResponse({
+                  payload: { eventTypes }
+                })
+              )
+            } else {
+              const eventTypes = await this.eventTypesService.findByPlans(req.session.customer.id)
+              return res.status(200).send(
+                transformResponse({
+                  payload: { eventTypes }
+                })
+              )
+            }
           }
         },
         {
