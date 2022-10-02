@@ -16,6 +16,7 @@ export class PlansController extends Controller {
           method: 'get',
           middlawares: [
             query('id').isString().optional(),
+            query('q').isString().optional(),
             ThrowValidationError
           ],
           handlerFunction: async (req, res) => {
@@ -24,6 +25,13 @@ export class PlansController extends Controller {
               return res.status(200).send(
                 transformResponse({
                   payload: { plan }
+                })
+              )
+            } else if (req.query.q) {
+              const plans = await this.plansService.findByQuery(req.query.q as string)
+              return res.status(200).send(
+                transformResponse({
+                  payload: { plans }
                 })
               )
             }
