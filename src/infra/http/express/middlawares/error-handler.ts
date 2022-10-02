@@ -3,6 +3,7 @@ import { BaseError } from '@infra/http/errors/base-error'
 import { transformResponse } from '@infra/http/transformers/response'
 
 export function ErrorHandler(error: Error, req: Request, res: Response, next: NextFunction) {
+  if (process.env.NODE_ENV === 'dev') console.error(error)
   if (error instanceof BaseError) {
     return res.status(error.statusCode).send(
       transformResponse({
