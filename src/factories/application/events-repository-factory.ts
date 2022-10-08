@@ -2,13 +2,14 @@ import { EventsRepository } from '@application/repositories/events/events.reposi
 import { EventsPrismaRepository } from '@application/repositories/events/events-prisma.repository'
 import { FactoryError } from '@errors/factory-error'
 import { Factory } from '@interfaces/factory'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClientFactory } from './prisma-client-factory'
 
 export class EventsRepositoryFactory implements Factory<EventsRepository> {
   create(): EventsRepository {
     try {
-      const prisma = new PrismaClient()
-      return new EventsPrismaRepository(prisma)
+      return new EventsPrismaRepository(
+        new PrismaClientFactory().create()
+      )
     } catch (error) {
       throw new FactoryError(EventsRepositoryFactory, error)
     }
